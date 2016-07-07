@@ -13,7 +13,7 @@ gulp.task('less', function() {
             cascade: false
         }))
         .pipe(csso())
-        .pipe(gulp.dest('../src/main/webapp/resources/production/main.min.css'));
+        .pipe(gulp.dest('../src/main/webapp/resources/production/'));
 });
 
 gulp.task('js', function() {
