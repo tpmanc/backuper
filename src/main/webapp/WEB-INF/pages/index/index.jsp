@@ -7,6 +7,6 @@
 
 <script src="<spring:url value="/resources/js/pages/catalog/index.js" />"></script>
 
-<h2>${title}</h2>
+<h3>Index page</h3>
 
 <jsp:include page="../layouts/layout_bottom.jsp" />

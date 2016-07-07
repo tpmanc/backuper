@@ -3,12 +3,12 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="fileDAO" class="dao.FileDAO">
+    <bean id="serverDAO" class="dao.ServerDAO">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="fileService" class="services.FileService">
-    <property name="fileDAO" ref="fileDAO"/>
+    <bean id="serverService" class="services.ServerService">
+    <property name="serverDAO" ref="serverDAO"/>
     </bean>
 
 </beans>
