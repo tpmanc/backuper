@@ -4,6 +4,8 @@
 *.iws
 .idea
 out
+gulp/node_modules
+gulp/*.log
 target
 test-output
 atlassian-ide-plugin.xml

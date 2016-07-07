@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import services.ServerService;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ServerController {
@@ -21,9 +24,16 @@ public class ServerController {
     public String sites(
             Model model
     ) {
+        String title = "Servers";
         List<Server> servers = serverService.getAll();
+
+        Map<String, String> breadcrumbs = new HashMap<String, String>();
+        breadcrumbs.put("Servers", null);
+        model.addAttribute("breadcrumbs", breadcrumbs);
+
         model.addAttribute("servers", servers);
-        model.addAttribute("title", "Index page");
+        model.addAttribute("title", title);
+
         return "server/servers";
     }
 
@@ -36,6 +46,13 @@ public class ServerController {
         if (server == null) {
             throw new NotFoundException("Page Not Found");
         }
+
+        String title = "Server";
+        Map<String, String> breadcrumbs = new HashMap<String, String>();
+        breadcrumbs.put("Servers", "/servers");
+        breadcrumbs.put(title, null);
+        model.addAttribute("breadcrumbs", breadcrumbs);
+
         model.addAttribute("title", "Index page");
         return "server/server";
     }
@@ -44,7 +61,14 @@ public class ServerController {
     public String siteAdd(
             Model model
     ) {
-        model.addAttribute("title", "Index page");
+        String title = "Add New Server";
+        Map<String, String> breadcrumbs = new HashMap<String, String>();
+        breadcrumbs.put(title, null);
+        breadcrumbs.put("Servers", "/servers");
+
+        model.addAttribute("breadcrumbs", breadcrumbs);
+
+        model.addAttribute("title", title);
         return "server/server-add";
     }
 

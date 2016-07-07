@@ -55,6 +55,6 @@
                 </ul>
             </div>
         </header>
-        <jsp:include page="left-menu.jsp" />
+        <jsp:include page="../components/left-menu.jsp" />
         <main class="mdl-layout__content mdl-color--grey-100">
             <div class="mdl-grid content">

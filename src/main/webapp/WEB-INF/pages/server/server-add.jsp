@@ -7,7 +7,9 @@
 
 <script src="<spring:url value="/resources/js/pages/catalog/index.js" />"></script>
 
-<h3>Add new server</h3>
+<jsp:include page="../components/breadcrumbs.jsp" />
+
+<h3>${title}</h3>
 
 <div class="new-server-form">
     <form action="<spring:url value="/server/add/handler" />" method="post">

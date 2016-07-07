@@ -7,6 +7,10 @@
 
 <script src="<spring:url value="/resources/js/pages/catalog/index.js" />"></script>
 
+<jsp:include page="../components/breadcrumbs.jsp" />
+
+<h3>Servers</h3>
+
 <div class="flexbox">
 
     <c:forEach items="${servers}" var="server" varStatus="itemStat">

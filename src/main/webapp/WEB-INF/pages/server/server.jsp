@@ -7,7 +7,10 @@
 
 <script src="<spring:url value="/resources/js/pages/catalog/index.js" />"></script>
 
+<jsp:include page="../components/breadcrumbs.jsp" />
+
 <h3>Server: abrikos</h3>
+
 <div class="flexbox">
 
     <div class="backup-card-wide mdl-card mdl-shadow--2dp">
