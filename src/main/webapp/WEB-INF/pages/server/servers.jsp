@@ -26,7 +26,6 @@
             </div>
             <div class="mdl-card__menu">
                 <button id="server${server.id}Menu" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-                <button id="server${server.id}Menu" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
                     <i class="material-icons">more_vert</i>
                 </button>
                 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="server${server.id}Menu">

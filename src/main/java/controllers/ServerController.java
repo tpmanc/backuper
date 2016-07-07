@@ -1,24 +1,29 @@
 package controllers;
 
 import exceptions.NotFoundException;
+import models.BackupDatabase;
 import models.Server;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import services.ServerService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class ServerController {
     @Autowired
     public ServerService serverService;
+
+    @Autowired
+    private SessionFactory sessionFactory;
 
     @RequestMapping(value = {"/servers"}, method = RequestMethod.GET)
     public String sites(
@@ -27,7 +32,7 @@ public class ServerController {
         String title = "Servers";
         List<Server> servers = serverService.getAll();
 
-        Map<String, String> breadcrumbs = new HashMap<String, String>();
+        Map<String, String> breadcrumbs = new LinkedHashMap<String, String>();
         breadcrumbs.put("Servers", null);
         model.addAttribute("breadcrumbs", breadcrumbs);
 
@@ -42,13 +47,21 @@ public class ServerController {
             @RequestParam int id,
             Model model
     ) {
-        Server server = serverService.getSite(id);
+        Server server = serverService.getServer(id);
         if (server == null) {
             throw new NotFoundException("Page Not Found");
         }
 
+        Session session = sessionFactory.openSession();
+        server = (Server) session.merge(server);
+        Hibernate.initialize(server.getBackupsDatabase());
+        session.close();
+
+        Set<BackupDatabase> backupsDatabase = server.getBackupsDatabase();
+        model.addAttribute("backupsDatabase", backupsDatabase);
+
         String title = "Server";
-        Map<String, String> breadcrumbs = new HashMap<String, String>();
+        Map<String, String> breadcrumbs = new LinkedHashMap<String, String>();
         breadcrumbs.put("Servers", "/servers");
         breadcrumbs.put(title, null);
         model.addAttribute("breadcrumbs", breadcrumbs);
@@ -62,9 +75,9 @@ public class ServerController {
             Model model
     ) {
         String title = "Add New Server";
-        Map<String, String> breadcrumbs = new HashMap<String, String>();
-        breadcrumbs.put(title, null);
+        Map<String, String> breadcrumbs = new LinkedHashMap<String, String>();
         breadcrumbs.put("Servers", "/servers");
+        breadcrumbs.put(title, null);
 
         model.addAttribute("breadcrumbs", breadcrumbs);
 

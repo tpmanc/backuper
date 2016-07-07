@@ -1,6 +1,8 @@
 package models;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="server")
@@ -24,6 +26,9 @@ public class Server {
 
     @Column(name="sftp_port")
     private int sftpPort;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "server", cascade = CascadeType.ALL)
+    private Set<BackupDatabase> backupsDatabase;
 
     public int getId() {
         return id;
@@ -71,5 +76,13 @@ public class Server {
 
     public void setSftpPort(int sftpPort) {
         this.sftpPort = sftpPort;
+    }
+
+    public Set<BackupDatabase> getBackupsDatabase() {
+        return backupsDatabase;
+    }
+
+    public void setBackupsDatabase(Set<BackupDatabase> backupsDatabase) {
+        this.backupsDatabase = backupsDatabase;
     }
 }
