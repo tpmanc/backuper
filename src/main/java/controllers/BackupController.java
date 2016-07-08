@@ -3,12 +3,12 @@ package controllers;
 import exceptions.NotFoundException;
 import models.BackupDatabase;
 import models.Server;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +26,40 @@ public class BackupController {
 
     @Autowired
     public BackupDatabaseService backupDatabaseService;
+
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    @RequestMapping(value = {"/backup"}, method = RequestMethod.GET)
+    public String backup(
+            @RequestParam int id,
+            Model model
+    ) {
+        BackupDatabase backupDatabase = backupDatabaseService.getById(id);
+        if (backupDatabase == null) {
+            throw new NotFoundException("Page Not Found");
+        }
+        model.addAttribute(backupDatabase);
+
+        Session session = sessionFactory.openSession();
+        backupDatabase = (BackupDatabase) session.merge(backupDatabase);
+        Hibernate.initialize(backupDatabase.getServer());
+        session.close();
+
+        Server server = backupDatabase.getServer();
+        model.addAttribute(server);
+
+        String title = "Backup";
+        Map<String, String> breadcrumbs = new LinkedHashMap<String, String>();
+        breadcrumbs.put("Servers", "/servers");
+        breadcrumbs.put("Server: "+server.getTitle(), "/server?id="+server.getId());
+        breadcrumbs.put(title, null);
+
+        model.addAttribute("breadcrumbs", breadcrumbs);
+
+        model.addAttribute("title", title);
+        return "backup/backup";
+    }
 
     @RequestMapping(value = {"/backup/add"}, method = RequestMethod.GET)
     public String backupAdd(
@@ -59,8 +93,7 @@ public class BackupController {
             @RequestParam String dbPassword,
             @RequestParam String dbName,
             @RequestParam String filesFolder,
-            @RequestParam String filesIgnore,
-            BindingResult result
+            @RequestParam String filesIgnore
     ) {
         Server server = serverService.getById(serverId);
         if (server == null) {
@@ -74,8 +107,7 @@ public class BackupController {
             model.setDatabaseUser(dbUser);
             model.setDatabasePassword(dbPassword);
             model.setDatabaseName(dbName);
-            Errors errors = null;
-//            backupDatabaseService.create(model);
+            backupDatabaseService.create(model);
         } else if (serverId == 2) {
 
         } else {

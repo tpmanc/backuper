@@ -60,7 +60,7 @@ public class ServerController {
         Set<BackupDatabase> backupsDatabase = server.getBackupsDatabase();
         model.addAttribute("backupsDatabase", backupsDatabase);
 
-        String title = "Server";
+        String title = "Server: "+server.getTitle();
         Map<String, String> breadcrumbs = new LinkedHashMap<String, String>();
         breadcrumbs.put("Servers", "/servers");
         breadcrumbs.put(title, null);

@@ -7,7 +7,7 @@
 
 <jsp:include page="../components/breadcrumbs.jsp" />
 
-<h3>Server: ${server.title}</h3>
+<h3>${title}</h3>
 
 <div class="flexbox">
 
@@ -17,7 +17,7 @@
                 <h2 class="mdl-card__title-text">${backup.title}</h2>
             </div>
             <div class="mdl-card__actions mdl-card--border">
-                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                <a href="<spring:url value="/backup?id=${backup.id}" />" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                     Open
                 </a>
             </div>
@@ -39,7 +39,7 @@
             <h2 class="mdl-card__title-text">Abrikos files</h2>
         </div>
         <div class="mdl-card__actions mdl-card--border">
-            <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+            <a href="<spring:url value="/backup?id=1" />" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                 Open
             </a>
         </div>
