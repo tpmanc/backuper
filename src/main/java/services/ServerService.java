@@ -4,6 +4,7 @@ import dao.ServerDAO;
 import models.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -29,8 +30,8 @@ public class ServerService {
     }
 
     @Transactional
-    public Server getSite(Integer id) {
-        return serverDAO.getSite(id);
+    public Server getServer(Integer id) {
+        return serverDAO.getById(id);
     }
 
     @Transactional

@@ -8,7 +8,7 @@
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="connection.url">jdbc:mysql://localhost:3306/backup_cloud</property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
 
         <!-- NOTE that after automapping with IDEA property username and password will delete -->
         <!--and will be:  Initial SessionFactory failedorg.hibernate.service.spi.ServiceException: Unable to create requested services-->
@@ -16,6 +16,7 @@
         <property name="connection.password"></property>
         <!-- NOTE that after automapping with IDEA property username and password will delete -->
         <mapping class="models.Server"/>
+        <mapping class="models.BackupDatabase"/>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>

@@ -4,6 +4,7 @@ import models.Server;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class ServerDAO implements DAOInterface<Server> {
         sessionFactory.getCurrentSession().update(server);
     }
 
-    public Server getSite(Integer id) {
+    public Server getById(Integer id) {
         return (Server) sessionFactory.getCurrentSession().get(Server.class, id);
     }
 
