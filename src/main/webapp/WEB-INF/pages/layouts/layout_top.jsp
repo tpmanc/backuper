@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="<spring:url value="/resources/less/material.blue-pink.min.css" />">
     <link rel="stylesheet" href="<spring:url value="/resources/production/main.css" />">
+    <script src="<spring:url value="/resources/production/main.min.js" />"></script>
 </head>
 <body>
     <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">

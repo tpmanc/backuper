@@ -21,14 +21,17 @@ public class ServerDAO implements DAOInterface<Server> {
         this.sessionFactory = sessionFactory;
     }
 
+    @Override
     public void create(Server server) {
         sessionFactory.getCurrentSession().save(server);
     }
 
+    @Override
     public void update(Server server) {
         sessionFactory.getCurrentSession().update(server);
     }
 
+    @Override
     public Server getById(Integer id) {
         return (Server) sessionFactory.getCurrentSession().get(Server.class, id);
     }

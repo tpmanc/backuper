@@ -6,9 +6,15 @@
     <bean id="serverDAO" class="dao.ServerDAO">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
-
     <bean id="serverService" class="services.ServerService">
-    <property name="serverDAO" ref="serverDAO"/>
+        <property name="serverDAO" ref="serverDAO"/>
+    </bean>
+
+    <bean id="backupDatabaseDAO" class="dao.BackupDatabaseDAO">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="backupDatabaseService" class="services.BackupDatabaseService">
+        <property name="backupDatabaseDAO" ref="backupDatabaseDAO"/>
     </bean>
 
 </beans>

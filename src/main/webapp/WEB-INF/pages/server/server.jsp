@@ -5,11 +5,9 @@
 
 <jsp:include page="../layouts/layout_top.jsp" />
 
-<script src="<spring:url value="/resources/js/pages/catalog/index.js" />"></script>
-
 <jsp:include page="../components/breadcrumbs.jsp" />
 
-<h3>Server: abrikos</h3>
+<h3>Server: ${server.title}</h3>
 
 <div class="flexbox">
 
@@ -58,7 +56,7 @@
 
 </div>
 
-<a href="<spring:url value="/backup/add" />" id="addBackup" class="fixed-button mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+<a href="<spring:url value="/backup/add?id=${server.id}" />" id="addBackup" class="fixed-button mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
     <i class="material-icons">add</i>
 </a>
 <div class="mdl-tooltip mdl-tooltip--top" for="addBackup">Add new backup</div>

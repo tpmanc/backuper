@@ -15,6 +15,9 @@ public class BackupDatabase {
     @Column(name="title", nullable = false)
     private String title;
 
+    @Column(name="database_type", nullable = false)
+    private int databaseType;
+
     @Column(name="database_name", nullable = false)
     private String databaseName;
 
@@ -78,5 +81,13 @@ public class BackupDatabase {
 
     public void setServer(Server server) {
         this.server = server;
+    }
+
+    public int getDatabaseType() {
+        return databaseType;
+    }
+
+    public void setDatabaseType(int databaseType) {
+        this.databaseType = databaseType;
     }
 }

@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,10 +46,11 @@ public class ServerController {
             @RequestParam int id,
             Model model
     ) {
-        Server server = serverService.getServer(id);
+        Server server = serverService.getById(id);
         if (server == null) {
             throw new NotFoundException("Page Not Found");
         }
+        model.addAttribute(server);
 
         Session session = sessionFactory.openSession();
         server = (Server) session.merge(server);

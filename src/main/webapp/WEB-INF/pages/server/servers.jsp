@@ -5,8 +5,6 @@
 
 <jsp:include page="../layouts/layout_top.jsp" />
 
-<script src="<spring:url value="/resources/js/pages/catalog/index.js" />"></script>
-
 <jsp:include page="../components/breadcrumbs.jsp" />
 
 <h3>Servers</h3>

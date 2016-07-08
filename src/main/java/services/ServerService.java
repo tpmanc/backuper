@@ -30,7 +30,7 @@ public class ServerService {
     }
 
     @Transactional
-    public Server getServer(Integer id) {
+    public Server getById(Integer id) {
         return serverDAO.getById(id);
     }
 
