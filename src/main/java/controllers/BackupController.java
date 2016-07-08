@@ -6,9 +6,13 @@ import models.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import services.BackupDatabaseService;
 import services.ServerService;
 
@@ -46,7 +50,7 @@ public class BackupController {
     }
 
     @RequestMapping(value = {"/backup/add/handler"}, method = RequestMethod.POST)
-    public String siteAddHandler(
+    public @ResponseBody String siteAddHandler(
             @RequestParam int serverId,
             @RequestParam String title,
             @RequestParam int backupType,
@@ -55,7 +59,8 @@ public class BackupController {
             @RequestParam String dbPassword,
             @RequestParam String dbName,
             @RequestParam String filesFolder,
-            @RequestParam String filesIgnore
+            @RequestParam String filesIgnore,
+            BindingResult result
     ) {
         Server server = serverService.getById(serverId);
         if (server == null) {
@@ -69,7 +74,8 @@ public class BackupController {
             model.setDatabaseUser(dbUser);
             model.setDatabasePassword(dbPassword);
             model.setDatabaseName(dbName);
-            backupDatabaseService.create(model);
+            Errors errors = null;
+//            backupDatabaseService.create(model);
         } else if (serverId == 2) {
 
         } else {

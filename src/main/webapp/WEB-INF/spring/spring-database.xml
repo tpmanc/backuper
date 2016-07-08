@@ -5,10 +5,10 @@
 	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/backup_cloud"/>
-        <property name="username" value="root"/>
-        <property name="password" value=""/>
+        <property name="driverClassName" value="${db.driverClassName}"/>
+        <property name="url" value="${db.url}"/>
+        <property name="username" value="${db.user}"/>
+        <property name="password" value="${db.password}"/>
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager" />
@@ -21,13 +21,24 @@
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
-        <property name="configLocation" value="WEB-INF/spring/hibernate.cfg.xml"/>
         <property name="hibernateProperties">
             <props>
+                <prop key="connection.driver_class">${db.driverClassName}</prop>
+                <prop key="connection.url">${db.url}</prop>
+                <prop key="connection.username">${db.user}</prop>
+                <prop key="connection.password">${db.password}</prop>
+                <prop key="connection.pool_size">${db.poolSize}</prop>
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
                 <prop key="hibernate.connection.charSet">UTF-8</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
             </props>
+        </property>
+        <property name="annotatedClasses">
+            <list>
+                <value>models.Server</value>
+                <value>models.BackupDatabase</value>
+            </list>
         </property>
     </bean>
 
