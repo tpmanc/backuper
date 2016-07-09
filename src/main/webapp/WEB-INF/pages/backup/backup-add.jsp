@@ -64,7 +64,7 @@
 
         <div id="filesSettings">
             <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="password" autocomplete="off" id="filesFolder" name="filesFolder">
+                <input class="mdl-textfield__input" type="text" autocomplete="off" id="filesFolder" name="filesFolder">
                 <label class="mdl-textfield__label" for="filesFolder">Files Folder</label>
             </div>
 

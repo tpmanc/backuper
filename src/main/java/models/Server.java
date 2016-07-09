@@ -30,6 +30,9 @@ public class Server {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "server", cascade = CascadeType.ALL)
     private Set<BackupDatabase> backupsDatabase;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "server", cascade = CascadeType.ALL)
+    private Set<BackupFiles> backupsFiles;
+
     public int getId() {
         return id;
     }
@@ -84,5 +87,13 @@ public class Server {
 
     public void setBackupsDatabase(Set<BackupDatabase> backupsDatabase) {
         this.backupsDatabase = backupsDatabase;
+    }
+
+    public Set<BackupFiles> getBackupsFiles() {
+        return backupsFiles;
+    }
+
+    public void setBackupsFiles(Set<BackupFiles> backupsFiles) {
+        this.backupsFiles = backupsFiles;
     }
 }

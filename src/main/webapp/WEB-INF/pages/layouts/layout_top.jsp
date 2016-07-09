@@ -27,7 +27,6 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="<spring:url value="/resources/less/material.blue-pink.min.css" />">
     <link rel="stylesheet" href="<spring:url value="/resources/production/main.css" />">
     <script src="<spring:url value="/resources/production/main.min.js" />"></script>
 </head>

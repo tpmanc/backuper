@@ -19,7 +19,7 @@ public class IndexController {
         ApplicationContext ctx = ContextLoader.getCurrentWebApplicationContext();
         IsFilled isFilled = (IsFilled) ctx.getBean("isFilled");
         if (!isFilled.isFilled()) {
-            return "redirect:/init-settings";
+//            return "redirect:/init-settings";
         }
 
         Session session = null;

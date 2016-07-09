@@ -1,3 +1,5 @@
+@import (less) "material.blue-pink.min.css";
+
 html, body {
     font-family: 'Roboto', 'Helvetica', sans-serif;
 }
@@ -43,46 +45,26 @@ html, body {
 }
 .header {
     box-sizing: border-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-flex-direction: column;
-            -ms-flex-direction: column;
-                    flex-direction: column;
-    -webkit-justify-content: flex-end;
-            -ms-flex-pack: end;
-                    justify-content: flex-end;
+    flex-direction: column;
+    justify-content: flex-end;
     padding: 16px;
 }
 .demo-avatar-dropdown {
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     position: relative;
-    -webkit-flex-direction: row;
-            -ms-flex-direction: row;
-                    flex-direction: row;
-    -webkit-align-items: center;
-            -ms-flex-align: center;
-                    align-items: center;
+    flex-direction: row;
+    align-items: center;
     width: 100%;
 }
 
 .navigation {
-    -webkit-flex-grow: 1;
-            -ms-flex-positive: 1;
-                    flex-grow: 1;
+    flex-grow: 1;
 }
 .demo-layout .navigation .mdl-navigation__link {
-    display: -webkit-flex !important;
-    display: -ms-flexbox !important;
     display: flex !important;
-    -webkit-flex-direction: row;
-            -ms-flex-direction: row;
-                    flex-direction: row;
-    -webkit-align-items: center;
-            -ms-flex-align: center;
-                    align-items: center;
+    flex-direction: row;
+    align-items: center;
     font-weight: 500;
     color: #424242;
 }
@@ -115,15 +97,10 @@ html, body {
 }
 .demo-options .mdl-card__actions {
     height: 64px;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     box-sizing: border-box;
     align-items: center;
 }
-
-
-
 
 
 .fixed-button.mdl-button {
@@ -143,7 +120,7 @@ html, body {
 .server-card-wide > .mdl-card__title {
     position: relative;
     color: #fff;
-    text-shadow: 0px 0px 5px #000;
+    text-shadow: 0 0 5px #000;
     height: 147px;
     background: rgba(0,0,0,0.4);
 }
@@ -168,7 +145,7 @@ html, body {
     text-shadow: 0px 0px 5px #000;
     height: 147px;
     background-color: #009688;
-    background-image: url('images/database.png');
+    background-image: url('../img/database.png');
     background-position: right top;
     background-repeat: no-repeat;
     background-size: 54% auto;
@@ -193,7 +170,7 @@ html, body {
         text-shadow: 0px 0px 5px #000;
         height: 147px;
         background-color: #7E57C2;
-        background-image: url('/images/file-icon.png');
+        background-image: url('../img/file-icon.png');
         background-position: right top;
         background-repeat: no-repeat;
         background-size: 54% auto;

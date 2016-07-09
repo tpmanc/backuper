@@ -2,6 +2,7 @@ package controllers;
 
 import exceptions.NotFoundException;
 import models.BackupDatabase;
+import models.BackupFiles;
 import models.Server;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -55,10 +56,14 @@ public class ServerController {
         Session session = sessionFactory.openSession();
         server = (Server) session.merge(server);
         Hibernate.initialize(server.getBackupsDatabase());
+        Hibernate.initialize(server.getBackupsFiles());
         session.close();
 
         Set<BackupDatabase> backupsDatabase = server.getBackupsDatabase();
         model.addAttribute("backupsDatabase", backupsDatabase);
+
+        Set<BackupFiles> backupFiles = server.getBackupsFiles();
+        model.addAttribute("backupFiles", backupFiles);
 
         String title = "Server: "+server.getTitle();
         Map<String, String> breadcrumbs = new LinkedHashMap<String, String>();
@@ -66,7 +71,7 @@ public class ServerController {
         breadcrumbs.put(title, null);
         model.addAttribute("breadcrumbs", breadcrumbs);
 
-        model.addAttribute("title", "Index page");
+        model.addAttribute("title", title);
         return "server/server";
     }
 

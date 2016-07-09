@@ -17,4 +17,11 @@
         <property name="backupDatabaseDAO" ref="backupDatabaseDAO"/>
     </bean>
 
+    <bean id="backupFilesDAO" class="dao.BackupFilesDAO">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="backupFilesService" class="services.BackupFilesService">
+        <property name="backupDatabaseDAO" ref="backupFilesDAO"/>
+    </bean>
+
 </beans>

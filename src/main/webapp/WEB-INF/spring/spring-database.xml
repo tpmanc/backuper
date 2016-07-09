@@ -38,6 +38,9 @@
             <list>
                 <value>models.Server</value>
                 <value>models.BackupDatabase</value>
+                <value>models.BackupFiles</value>
+                <value>models.ArchiveDatabase</value>
+                <value>models.ArchiveFiles</value>
             </list>
         </property>
     </bean>
