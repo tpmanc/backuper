@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,9 +43,9 @@ public class ServerController {
         return "server/servers";
     }
 
-    @RequestMapping(value = {"/server"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/server/{id}"}, method = RequestMethod.GET)
     public String site(
-            @RequestParam int id,
+            @PathVariable int id,
             Model model
     ) {
         Server server = serverService.getById(id);

@@ -17,7 +17,7 @@
                 <h2 class="mdl-card__title-text">${backup.title}</h2>
             </div>
             <div class="mdl-card__actions mdl-card--border">
-                <a href="<spring:url value="/backup-db?id=${backup.id}" />" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                <a href="<spring:url value="/backup/database/${backup.id}" />" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                     Open
                 </a>
             </div>
@@ -26,7 +26,7 @@
                     <i class="material-icons">more_vert</i>
                 </button>
                 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="dbBackup${backup.id}">
-                    <li class="mdl-menu__item"><a href="<spring:url value="/backup-db/edit?id=${backup.id}" />">Edit</a></li>
+                    <li class="mdl-menu__item"><a href="<spring:url value="/backup/database/edit/${backup.id}" />">Edit</a></li>
                     <li class="mdl-menu__item">Delete</li>
                 </ul>
             </div>
@@ -39,7 +39,7 @@
                 <h2 class="mdl-card__title-text">${backup.title}</h2>
             </div>
             <div class="mdl-card__actions mdl-card--border">
-                <a href="<spring:url value="/backup-files?id=${backup.id}" />" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                <a href="<spring:url value="/backup/files/${backup.id}" />" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                     Open
                 </a>
             </div>
@@ -48,7 +48,7 @@
                     <i class="material-icons">more_vert</i>
                 </button>
                 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="filesBackup${backup.id}">
-                    <li class="mdl-menu__item"><a href="<spring:url value="/backup-files/edit?id=${backup.id}" />">Edit</a></li>
+                    <li class="mdl-menu__item"><a href="<spring:url value="/backup/files/edit/${backup.id}" />">Edit</a></li>
                     <li class="mdl-menu__item">Delete</li>
                 </ul>
             </div>
