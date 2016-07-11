@@ -22,13 +22,13 @@
         <div id="databaseSettings">
             <div class="form-field">
                 <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="dbType1">
-                    <input type="radio" id="dbType1" class="mdl-radio__button" name="dbType" value="1" checked>
+                    <input type="radio" id="dbType1" class="mdl-radio__button" name="dbType" value="1" <c:if test="${backupDatabase.databaseType != 2}">checked="checked"</c:if>>
                     <span class="mdl-radio__label">MySQL</span>
                 </label>
             </div>
             <div class="form-field">
                 <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="dbType2">
-                    <input type="radio" id="dbType2" class="mdl-radio__button" name="dbType" value="2">
+                    <input type="radio" id="dbType2" class="mdl-radio__button" name="dbType" value="2" <c:if test="${backupDatabase.databaseType == 2}">checked="checked"</c:if> >
                     <span class="mdl-radio__label">PostgreSQL</span>
                 </label>
             </div>

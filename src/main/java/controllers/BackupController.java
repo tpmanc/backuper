@@ -36,7 +36,7 @@ public class BackupController {
     private SessionFactory sessionFactory;
 
     @RequestMapping(value = {"/backup/database/{id}"}, method = RequestMethod.GET)
-    public String backup(
+    public String backupDatabase(
             @PathVariable int id,
             Model model
     ) {
@@ -54,7 +54,7 @@ public class BackupController {
         Server server = backupDatabase.getServer();
         model.addAttribute(server);
 
-        String title = "Backup";
+        String title = "Database Backup: "+backupDatabase.getTitle();
         Map<String, String> breadcrumbs = new LinkedHashMap<String, String>();
         breadcrumbs.put("Servers", "/servers");
         breadcrumbs.put("Server: "+server.getTitle(), "/server/"+server.getId());
@@ -63,7 +63,38 @@ public class BackupController {
         model.addAttribute("breadcrumbs", breadcrumbs);
 
         model.addAttribute("title", title);
-        return "backup/backup";
+        return "backup/backup-db";
+    }
+
+    @RequestMapping(value = {"/backup/files/{id}"}, method = RequestMethod.GET)
+    public String backupFiles(
+            @PathVariable int id,
+            Model model
+    ) {
+        BackupFiles backupFiles = backupFilesService.getById(id);
+        if (backupFiles == null) {
+            throw new NotFoundException("Page Not Found");
+        }
+        model.addAttribute(backupFiles);
+
+        Session session = sessionFactory.openSession();
+        backupFiles = (BackupFiles) session.merge(backupFiles);
+        Hibernate.initialize(backupFiles.getServer());
+        session.close();
+
+        Server server = backupFiles.getServer();
+        model.addAttribute(server);
+
+        String title = "Files Backup: "+backupFiles.getTitle();
+        Map<String, String> breadcrumbs = new LinkedHashMap<String, String>();
+        breadcrumbs.put("Servers", "/servers");
+        breadcrumbs.put("Server: "+server.getTitle(), "/server/"+server.getId());
+        breadcrumbs.put(title, null);
+
+        model.addAttribute("breadcrumbs", breadcrumbs);
+
+        model.addAttribute("title", title);
+        return "backup/backup-files";
     }
 
     @RequestMapping(value = {"/backup/add"}, method = RequestMethod.GET)
@@ -103,10 +134,11 @@ public class BackupController {
         session.close();
         model.addAttribute(backupDatabase);
 
-        String title = "Edit: "+backupDatabase.getTitle();
+        String title = "Edit";
         Map<String, String> breadcrumbs = new LinkedHashMap<String, String>();
         breadcrumbs.put("Servers", "/servers");
         breadcrumbs.put("Server: "+backupDatabase.getServer().getTitle(), "/server/"+backupDatabase.getServer().getId());
+        breadcrumbs.put(backupDatabase.getTitle(), "/backup/database/"+backupDatabase.getId());
         breadcrumbs.put(title, null);
 
         model.addAttribute("breadcrumbs", breadcrumbs);
@@ -130,10 +162,11 @@ public class BackupController {
         session.close();
         model.addAttribute(backupFiles);
 
-        String title = "Edit: "+backupFiles.getTitle();
+        String title = "Edit";
         Map<String, String> breadcrumbs = new LinkedHashMap<String, String>();
         breadcrumbs.put("Servers", "/servers");
         breadcrumbs.put("Server: "+backupFiles.getServer().getTitle(), "/server/"+backupFiles.getServer().getId());
+        breadcrumbs.put(backupFiles.getTitle(), "/backup/files/"+backupFiles.getId());
         breadcrumbs.put(title, null);
 
         model.addAttribute("breadcrumbs", breadcrumbs);

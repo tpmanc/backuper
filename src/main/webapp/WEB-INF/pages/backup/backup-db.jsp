@@ -17,6 +17,7 @@
         <th class="mdl-data-table__cell--non-numeric">Title</th>
         <th>Table count</th>
         <th>File size</th>
+        <th>Date</th>
         <th>Download</th>
     </tr>
     </thead>
@@ -24,6 +25,7 @@
     <tr>
         <td class="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td>
         <td>25</td>
+        <td>2.9 Mb</td>
         <td>2.9 Mb</td>
         <td>
             <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--mini-fab">
@@ -35,6 +37,7 @@
         <td class="mdl-data-table__cell--non-numeric">Plywood (Birch)</td>
         <td>50</td>
         <td>1.25 Mb</td>
+        <td>1.25 Mb</td>
         <td>
             <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--mini-fab">
                 <i class="material-icons">file_download</i>
@@ -44,6 +47,7 @@
     <tr>
         <td class="mdl-data-table__cell--non-numeric">Laminate (Gold on Blue)</td>
         <td>10</td>
+        <td>2.35 Mb</td>
         <td>2.35 Mb</td>
         <td>
             <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--mini-fab">

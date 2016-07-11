@@ -26,7 +26,7 @@
                     <i class="material-icons">more_vert</i>
                 </button>
                 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="dbBackup${backup.id}">
-                    <li class="mdl-menu__item"><a href="<spring:url value="/backup/database/edit/${backup.id}" />">Edit</a></li>
+                    <li class="mdl-menu__item btn-a"><a href="<spring:url value="/backup/database/edit/${backup.id}" />">Edit</a></li>
                     <li class="mdl-menu__item">Delete</li>
                 </ul>
             </div>
@@ -48,7 +48,7 @@
                     <i class="material-icons">more_vert</i>
                 </button>
                 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="filesBackup${backup.id}">
-                    <li class="mdl-menu__item"><a href="<spring:url value="/backup/files/edit/${backup.id}" />">Edit</a></li>
+                    <li class="mdl-menu__item btn-a"><a href="<spring:url value="/backup/files/edit/${backup.id}" />">Edit</a></li>
                     <li class="mdl-menu__item">Delete</li>
                 </ul>
             </div>
