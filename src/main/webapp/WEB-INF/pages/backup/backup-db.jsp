@@ -22,40 +22,25 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td class="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td>
-        <td>25</td>
-        <td>2.9 Mb</td>
-        <td>2.9 Mb</td>
-        <td>
-            <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--mini-fab">
-                <i class="material-icons">file_download</i>
-            </button>
-        </td>
-    </tr>
-    <tr>
-        <td class="mdl-data-table__cell--non-numeric">Plywood (Birch)</td>
-        <td>50</td>
-        <td>1.25 Mb</td>
-        <td>1.25 Mb</td>
-        <td>
-            <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--mini-fab">
-                <i class="material-icons">file_download</i>
-            </button>
-        </td>
-    </tr>
-    <tr>
-        <td class="mdl-data-table__cell--non-numeric">Laminate (Gold on Blue)</td>
-        <td>10</td>
-        <td>2.35 Mb</td>
-        <td>2.35 Mb</td>
-        <td>
-            <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--mini-fab">
-                <i class="material-icons">file_download</i>
-            </button>
-        </td>
-    </tr>
+    <c:forEach items="${archives}" var="archive">
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">${archive.name}</td>
+            <td>${archive.tableCount}</td>
+            <td>${archive.size}</td>
+            <td>${archive.date}</td>
+            <td>
+                <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--mini-fab">
+                    <i class="material-icons">file_download</i>
+                </button>
+            </td>
+        </tr>
+    </c:forEach>
     </tbody>
 </table>
+
+<a href="<spring:url value="/backup/database/run/${backupDatabase.id}" />" id="runBackup" class="fixed-button mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+    <i class="material-icons">play_arrow</i>
+</a>
+<div class="mdl-tooltip mdl-tooltip--top" for="runBackup">Run database backup</div>
 
 <jsp:include page="../layouts/layout_bottom.jsp" />

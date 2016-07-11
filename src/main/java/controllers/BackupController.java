@@ -1,6 +1,11 @@
 package controllers;
 
+import com.jcraft.jsch.JSchException;
+import exceptions.InternalException;
 import exceptions.NotFoundException;
+import helpers.SshDatabaseBackuper;
+import helpers.database.MysqlConnection;
+import models.ArchiveDatabase;
 import models.BackupDatabase;
 import models.BackupFiles;
 import models.Server;
@@ -14,12 +19,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import services.ArchiveDatabaseService;
 import services.BackupDatabaseService;
 import services.BackupFilesService;
 import services.ServerService;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class BackupController {
@@ -31,6 +38,9 @@ public class BackupController {
 
     @Autowired
     public BackupFilesService backupFilesService;
+
+    @Autowired
+    public ArchiveDatabaseService archiveDatabaseService;
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -49,10 +59,14 @@ public class BackupController {
         Session session = sessionFactory.openSession();
         backupDatabase = (BackupDatabase) session.merge(backupDatabase);
         Hibernate.initialize(backupDatabase.getServer());
+        Hibernate.initialize(backupDatabase.getArchiveDatabases());
         session.close();
 
         Server server = backupDatabase.getServer();
         model.addAttribute(server);
+
+        Set<ArchiveDatabase> archives = backupDatabase.getArchiveDatabases();
+        model.addAttribute("archives", archives);
 
         String title = "Database Backup: "+backupDatabase.getTitle();
         Map<String, String> breadcrumbs = new LinkedHashMap<String, String>();
@@ -236,5 +250,41 @@ public class BackupController {
             throw new NotFoundException("Page Not Found");
         }
         return "redirect:/server/"+serverId;
+    }
+
+    @RequestMapping(value = {"/backup/database/run/{id}"}, method = RequestMethod.GET)
+    public String backupDatabaseRun(
+            @PathVariable int id
+    ) {
+        BackupDatabase backupDatabase = backupDatabaseService.getById(id);
+        if (backupDatabase == null) {
+            throw new NotFoundException("Page Not Found");
+        }
+
+        Session session = sessionFactory.openSession();
+        backupDatabase = (BackupDatabase) session.merge(backupDatabase);
+        Hibernate.initialize(backupDatabase.getServer());
+        session.close();
+        Server server = backupDatabase.getServer();
+
+        SshDatabaseBackuper sshDatabaseBackuper = new SshDatabaseBackuper(server.getUrl(), server.getSftpPort(), server.getSftpUser(), server.getSftpPassword());
+        MysqlConnection mysqlConnection = new MysqlConnection();
+        try {
+            sshDatabaseBackuper.createDatabaseBackup(mysqlConnection);
+        } catch (JSchException e) {
+            e.printStackTrace();
+            throw new InternalException("Cant create backup");
+        }
+
+        ArchiveDatabase model = new ArchiveDatabase();
+        model.setName("test");
+        model.setHash("qweqe@Ewqe");
+        model.setSize(23);
+        model.setTableCount(2);
+        model.setBackupDatabase(backupDatabase);
+        model.setForDelete(false);
+        archiveDatabaseService.create(model);
+
+        return "redirect:/backup/database/"+backupDatabase.getId();
     }
 }

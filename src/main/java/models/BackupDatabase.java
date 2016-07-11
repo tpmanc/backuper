@@ -1,6 +1,7 @@
 package models;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name="backup_database")
@@ -28,6 +29,9 @@ public class BackupDatabase {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "server_id")
     private Server server;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "backupDatabase", cascade = CascadeType.ALL)
+    private Set<ArchiveDatabase> archiveDatabases;
 
     public int getId() {
         return id;
@@ -87,5 +91,13 @@ public class BackupDatabase {
 
     public void setDatabaseType(int databaseType) {
         this.databaseType = databaseType;
+    }
+
+    public Set<ArchiveDatabase> getArchiveDatabases() {
+        return archiveDatabases;
+    }
+
+    public void setArchiveDatabases(Set<ArchiveDatabase> archiveDatabases) {
+        this.archiveDatabases = archiveDatabases;
     }
 }
