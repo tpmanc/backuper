@@ -17,7 +17,7 @@ public class ArchiveDatabase {
     private String hash;
 
     @Column(name="size", nullable = false)
-    private long size;
+    private float size;
 
     @Column(name="date", nullable = false)
     private long date;
@@ -56,11 +56,11 @@ public class ArchiveDatabase {
         this.hash = hash;
     }
 
-    public long getSize() {
+    public float getSize() {
         return size;
     }
 
-    public void setSize(long size) {
+    public void setSize(float size) {
         this.size = size;
     }
 

@@ -57,10 +57,6 @@ public class BackupDatabase {
         this.databaseName = databaseName;
     }
 
-    public String getDatabseUser() {
-        return databaseUser;
-    }
-
     public String getDatabaseUser() {
         return databaseUser;
     }

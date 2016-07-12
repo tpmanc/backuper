@@ -1,8 +1,10 @@
 package controllers;
 
 import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 import exceptions.InternalException;
 import exceptions.NotFoundException;
+import helpers.HashHelper;
 import helpers.SshDatabaseBackuper;
 import helpers.database.MysqlConnection;
 import models.ArchiveDatabase;
@@ -24,6 +26,8 @@ import services.BackupDatabaseService;
 import services.BackupFilesService;
 import services.ServerService;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -267,23 +271,41 @@ public class BackupController {
         session.close();
         Server server = backupDatabase.getServer();
 
-        SshDatabaseBackuper sshDatabaseBackuper = new SshDatabaseBackuper(server.getUrl(), server.getSftpPort(), server.getSftpUser(), server.getSftpPassword());
-        MysqlConnection mysqlConnection = new MysqlConnection();
+        MysqlConnection mysqlConnection = new MysqlConnection(backupDatabase.getDatabaseUser(), backupDatabase.getDatabasePassword(), backupDatabase.getDatabaseName(), 3301);
         try {
-            sshDatabaseBackuper.createDatabaseBackup(mysqlConnection);
+            SshDatabaseBackuper sshDatabaseBackuper = new SshDatabaseBackuper(server.getUrl(), server.getSftpPort(), server.getSftpUser(), server.getSftpPassword(), mysqlConnection);
+            Integer tablesCount = sshDatabaseBackuper.getTablesCount();
+            String filePath = sshDatabaseBackuper.createDatabaseBackup();
+
+            File file = new File(filePath);
+            String hash = HashHelper.getHash(filePath);
+            File newFile = new File(HashHelper.getHashDir(hash));
+            file.renameTo(newFile);
+            ArchiveDatabase model = new ArchiveDatabase();
+            model.setName(file.getName());
+            model.setHash(hash);
+            double fileSize = file.length() / 1024; // Kb
+            model.setSize((float) fileSize);
+            if (tablesCount != null) {
+                model.setTableCount(tablesCount);
+            }
+            model.setBackupDatabase(backupDatabase);
+            model.setForDelete(false);
+            archiveDatabaseService.create(model);
         } catch (JSchException e) {
             e.printStackTrace();
             throw new InternalException("Cant create backup");
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new InternalException("Cant create backup");
+        } catch (SftpException e) {
+            e.printStackTrace();
+            throw new InternalException("Cant create backup");
+        } finally {
+
         }
 
-        ArchiveDatabase model = new ArchiveDatabase();
-        model.setName("test");
-        model.setHash("qweqe@Ewqe");
-        model.setSize(23);
-        model.setTableCount(2);
-        model.setBackupDatabase(backupDatabase);
-        model.setForDelete(false);
-        archiveDatabaseService.create(model);
+
 
         return "redirect:/backup/database/"+backupDatabase.getId();
     }

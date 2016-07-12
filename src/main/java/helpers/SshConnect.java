@@ -3,8 +3,9 @@ package helpers;
 import com.jcraft.jsch.*;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class SshConnect {
     protected String address;
@@ -13,18 +14,24 @@ public class SshConnect {
     protected String password;
 
     protected Session session = null;
-    protected Channel shellChannel = null;
-    protected ChannelShell sftpChannel = null;
-    protected PrintStream commander;
+    protected Channel execChannel = null;
+
+    protected String archiveNameDate;
+    protected String archiveExtension = ".tar.gz";
+
+    private String tempDir = "/tmp";
 
     public SshConnect(String address, int port, String user, String password) {
         this.address = address;
         this.port = port;
         this.user = user;
         this.password = password;
+        Date date = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyy_MM_dd");
+        archiveNameDate = df.format(date);
     }
 
-    protected void sshConnect() throws JSchException, IOException {
+    protected void sshConnect() throws JSchException {
         JSch ssh = new JSch();
         session = ssh.getSession(user, address, port);
         session.setPassword(password);
@@ -33,12 +40,43 @@ public class SshConnect {
         config.put("StrictHostKeyChecking", "no");
         session.setConfig(config);
         session.connect();
+    }
 
-        shellChannel = session.openChannel("shell");
-        OutputStream inputstream_for_the_channel = shellChannel.getOutputStream();
-        commander = new PrintStream(inputstream_for_the_channel, true);
-        shellChannel.setOutputStream(null);
-        shellChannel.connect(100);
+    public String executeBash(String command) throws JSchException, IOException {
+        execChannel = session.openChannel("exec");
+        ((ChannelExec) execChannel).setCommand(command);
+        InputStream commandOutput = execChannel.getInputStream();
+        InputStream errorOutput = ((ChannelExec) execChannel).getErrStream();
+        execChannel.connect();
+
+        int readByte = commandOutput.read();
+        StringBuilder outputBuffer = new StringBuilder();
+        while(readByte != 0xffffffff) {
+            outputBuffer.append((char)readByte);
+            readByte = commandOutput.read();
+        }
+
+        execChannel.disconnect();
+        return outputBuffer.toString();
+    }
+
+    protected String getArchiveFullName(String name) {
+        return name+"-"+archiveNameDate+archiveExtension;
+    }
+
+    protected String createArchive(String name, String tempName) throws IOException, JSchException {
+        String archivePath = tempDir+"/"+getArchiveFullName(name);
+        String command = "tar -zcf \""+archivePath+"\" "+tempDir+"/"+tempName;
+        executeBash(command);
+        return archivePath;
+    }
+
+    public String downloadBackup(String from, String to) throws JSchException, SftpException {
+        ChannelSftp channel = (ChannelSftp) session.openChannel("sftp");
+        channel.connect();
+        channel.get(from, to);
+        channel.disconnect();
+        return to;
     }
 
     public String getPassword() {
