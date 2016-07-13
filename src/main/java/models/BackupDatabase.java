@@ -31,6 +31,7 @@ public class BackupDatabase {
     private Server server;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "backupDatabase", cascade = CascadeType.ALL)
+    @OrderBy("date desc")
     private Set<ArchiveDatabase> archiveDatabases;
 
     public int getId() {

@@ -274,21 +274,17 @@ public class BackupController {
         MysqlConnection mysqlConnection = new MysqlConnection(backupDatabase.getDatabaseUser(), backupDatabase.getDatabasePassword(), backupDatabase.getDatabaseName(), 3301);
         try {
             SshDatabaseBackuper sshDatabaseBackuper = new SshDatabaseBackuper(server.getUrl(), server.getSftpPort(), server.getSftpUser(), server.getSftpPassword(), mysqlConnection);
-            Integer tablesCount = sshDatabaseBackuper.getTablesCount();
             String filePath = sshDatabaseBackuper.createDatabaseBackup();
 
             File file = new File(filePath);
             String hash = HashHelper.getHash(filePath);
-            File newFile = new File(HashHelper.getHashDir(hash));
+            double fileSize = file.length(); // bytes
+            File newFile = new File(HashHelper.getHashDir(hash) + file.getName());
             file.renameTo(newFile);
             ArchiveDatabase model = new ArchiveDatabase();
             model.setName(file.getName());
             model.setHash(hash);
-            double fileSize = file.length() / 1024; // Kb
-            model.setSize((float) fileSize);
-            if (tablesCount != null) {
-                model.setTableCount(tablesCount);
-            }
+            model.setSize(fileSize);
             model.setBackupDatabase(backupDatabase);
             model.setForDelete(false);
             archiveDatabaseService.create(model);

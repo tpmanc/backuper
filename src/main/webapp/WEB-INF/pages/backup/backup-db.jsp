@@ -1,4 +1,5 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
@@ -15,7 +16,6 @@
     <thead>
     <tr>
         <th class="mdl-data-table__cell--non-numeric">Title</th>
-        <th>Table count</th>
         <th>File size</th>
         <th>Date</th>
         <th>Download</th>
@@ -25,13 +25,32 @@
     <c:forEach items="${archives}" var="archive">
         <tr>
             <td class="mdl-data-table__cell--non-numeric">${archive.name}</td>
-            <td>${archive.tableCount}</td>
-            <td>${archive.size}</td>
-            <td>${archive.date}</td>
             <td>
-                <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--mini-fab">
+                <c:choose>
+                    <c:when test="${archive.size < 1024}">
+                        <fmt:formatNumber var="res" value="${archive.size}" maxFractionDigits="2" />${res} B
+                    </c:when>
+                    <c:when test="${archive.size < 1024 * 1024}">
+                        <fmt:formatNumber var="res" value="${archive.size/1024}" maxFractionDigits="2" />${res} Kb
+                    </c:when>
+                    <c:when test="${archive.size < 1024 * 1024 * 1024}">
+                        <fmt:formatNumber var="res" value="${archive.size/1024/1024}" maxFractionDigits="2" />${res} Mb
+                    </c:when>
+                    <c:when test="${archive.size < 1024 * 1024 * 1024 * 1024}">
+                        <fmt:formatNumber var="res" value="${archive.size/1024/1024/1024}" maxFractionDigits="2" />${res} Gb
+                    </c:when>
+                    <c:otherwise>
+                        <fmt:formatNumber var="res" value="${archive.size}" maxFractionDigits="2" />${res} B
+                    </c:otherwise>
+                </c:choose>
+            </td>
+            <jsp:useBean id="dateValue" class="java.util.Date"/>
+            <jsp:setProperty name="dateValue" property="time" value="${archive.date}"/>
+            <td><fmt:formatDate value="${dateValue}" pattern="HH:mm dd.MM.yyyy" /></td>
+            <td>
+                <a href="<spring:url value="/backup/download/database/${archive.id}" />" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--mini-fab">
                     <i class="material-icons">file_download</i>
-                </button>
+                </a>
             </td>
         </tr>
     </c:forEach>

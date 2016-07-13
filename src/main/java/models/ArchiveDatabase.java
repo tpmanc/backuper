@@ -17,13 +17,10 @@ public class ArchiveDatabase {
     private String hash;
 
     @Column(name="size", nullable = false)
-    private float size;
+    private double size;
 
     @Column(name="date", nullable = false)
     private long date;
-
-    @Column(name="table_count", nullable = false)
-    private int tableCount;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "backup_database_id")
@@ -56,11 +53,11 @@ public class ArchiveDatabase {
         this.hash = hash;
     }
 
-    public float getSize() {
+    public double getSize() {
         return size;
     }
 
-    public void setSize(float size) {
+    public void setSize(double size) {
         this.size = size;
     }
 
@@ -70,14 +67,6 @@ public class ArchiveDatabase {
 
     public void setDate(long date) {
         this.date = date;
-    }
-
-    public int getTableCount() {
-        return tableCount;
-    }
-
-    public void setTableCount(int tableCount) {
-        this.tableCount = tableCount;
     }
 
     public BackupDatabase getBackupDatabase() {

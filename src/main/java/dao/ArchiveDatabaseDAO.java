@@ -2,6 +2,8 @@ package dao;
 
 import models.ArchiveDatabase;
 import org.hibernate.SessionFactory;
+import org.hibernate.annotations.Sort;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -33,6 +35,9 @@ public class ArchiveDatabaseDAO implements DAOInterface<ArchiveDatabase> {
 
     @Override
     public List<ArchiveDatabase> getAll() {
-        return (List<ArchiveDatabase>) sessionFactory.getCurrentSession().createCriteria(ArchiveDatabase.class).list();
+        return (List<ArchiveDatabase>) sessionFactory.
+                getCurrentSession().
+                createCriteria(ArchiveDatabase.class).
+                list();
     }
 }

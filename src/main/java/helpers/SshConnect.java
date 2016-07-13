@@ -66,7 +66,8 @@ public class SshConnect {
 
     protected String createArchive(String name, String tempName) throws IOException, JSchException {
         String archivePath = tempDir+"/"+getArchiveFullName(name);
-        String command = "tar -zcf \""+archivePath+"\" "+tempDir+"/"+tempName;
+        String command = "tar -zcf \""+archivePath+"\" -C "+tempDir+" "+tempName;
+        System.out.println(command);
         executeBash(command);
         return archivePath;
     }

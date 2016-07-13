@@ -36,6 +36,19 @@ public class Settings {
         return appHome;
     }
 
+    public static String getUploadDir() {
+        String uploadDir = getAppHome() + File.separator + "files" + File.separator;
+        File fileDir = new File(uploadDir);
+        // Создаем основную директорию, если ее нет
+        if (!fileDir.exists()) {
+            boolean res = fileDir.mkdirs();
+            if (!res) {
+                throw new InternalException("Невозможно создать директорию " + fileDir);
+            }
+        }
+        return uploadDir;
+    }
+
     public static String getDbPath() {
         String fileDir = getAppHome();
         return fileDir + File.separator + Settings.dbProperties;

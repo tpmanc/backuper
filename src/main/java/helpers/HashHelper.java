@@ -38,7 +38,7 @@ public class HashHelper {
     public static String getHashDir(String hash) {
         String firstDir = hash.substring(0, 2);
         String secondDir = hash.substring(2, 4);
-        String path = Settings.getAppHome() + File.separator + firstDir + File.separator + secondDir;
+        String path = Settings.getUploadDir() + File.separator + firstDir + File.separator + secondDir + File.separator;
         File dir = new File(path);
         if (!dir.exists()) {
             boolean res = dir.mkdirs();
