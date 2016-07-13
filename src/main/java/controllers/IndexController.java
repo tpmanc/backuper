@@ -61,4 +61,12 @@ public class IndexController {
 //        model.addAttribute("title", "Index page");
         return "index/index";
     }
+
+    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
+    public String login(
+            Model model
+    ) {
+        model.addAttribute("title", "Login");
+        return "index/login";
+    }
 }
