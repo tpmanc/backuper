@@ -24,7 +24,6 @@
           class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
     </bean>
 
-
     <mvc:resources mapping="/resources/**" location="/resources/" />
     <mvc:annotation-driven />
     <context:annotation-config />

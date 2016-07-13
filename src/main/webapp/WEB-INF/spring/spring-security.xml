@@ -8,16 +8,18 @@
                                 http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 
     <http auto-config="true" use-expressions="true">
-        <intercept-url pattern="/login" access="permitAll()" />
-        <intercept-url pattern="/init-settings" access="permitAll" />
-        <intercept-url pattern="/settings-save" access="permitAll" />
-        <intercept-url pattern="/*" access="isAuthenticated()" />
+        <csrf disabled="false" />
+        <!--<intercept-url pattern="/login" access="permitAll()" />-->
+        <!--<intercept-url pattern="/init-settings" access="permitAll" />-->
+        <!--<intercept-url pattern="/settings-save" access="permitAll" />-->
+        <!--<intercept-url pattern="/*" access="isAuthenticated()" />-->
         <form-login
+                login-processing-url="/j_spring_security_check"
                 login-page="/login"
                 default-target-url="/"
                 authentication-failure-url="/login?error=true"
-                username-parameter="username"
-                password-parameter="password" />
+                username-parameter="j_username"
+                password-parameter="j_password" />
         <logout logout-success-url="/login" />
     </http>
 
@@ -25,15 +27,4 @@
         <authentication-provider ref="customAuthenticationProvider"/>
     </authentication-manager>
 
-    <!--<authentication-manager>-->
-        <!--<ldap-authentication-provider-->
-                <!--user-search-filter="${ldap.user-search-filter}"-->
-                <!--group-search-base="${ldap.group-search-base}"-->
-                <!--group-search-filter="${ldap.group-search-filter}"-->
-                <!--group-role-attribute="${ldap.role-attribute}"-->
-                <!--role-prefix="ROLE_"-->
-                <!--user-context-mapper-ref="ldapContextMapperImpl">-->
-        <!--</ldap-authentication-provider>-->
-    <!--</authentication-manager>-->
-    <!--<ldap-server url="${ldap.url}" manager-dn="${ldap.manager-dn}" manager-password="${ldap.manager-password}" />-->
 </beans:beans>
