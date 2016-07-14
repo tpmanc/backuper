@@ -68,6 +68,7 @@ public class IndexController {
         if (user != null) {
             errors.put("email", "Already used");
         }
+        System.out.println(errors);
 
         user = new User();
         user.setEmail(email);

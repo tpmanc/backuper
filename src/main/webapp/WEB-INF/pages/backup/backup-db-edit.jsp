@@ -11,6 +11,7 @@
 
 <div class="new-server-form">
     <form action="<spring:url value="/backup/save/handler" />" method="post" autocomplete="off">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <input type="hidden" name="backupType" value="1">
         <input type="hidden" name="backupId" value="${backupDatabase.id}">
         <input type="hidden" name="serverId" value="${backupDatabase.server.id}">

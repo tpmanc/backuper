@@ -6,7 +6,7 @@ import org.springframework.security.core.Authentication;
 import java.security.Principal;
 
 public class UserHelper {
-    public static CustomUser getUser(Principal principal) {
+    public static CustomUser getCustomUser(Principal principal) {
         return (CustomUser) ((Authentication) principal).getPrincipal();
     }
 }

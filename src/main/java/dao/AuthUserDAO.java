@@ -25,10 +25,13 @@ public class AuthUserDAO  {
     public CustomUser getByEmail(String email) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class);
         User user = (User) criteria.add(Restrictions.eq("email", email)).uniqueResult();
-        CustomUser authUser = new CustomUser();
-        authUser.setId(user.getId());
-        authUser.setUsername(user.getEmail());
-        authUser.setPassword(user.getPasswordHash());
-        return authUser;
+        if (user != null) {
+            CustomUser authUser = new CustomUser();
+            authUser.setId(user.getId());
+            authUser.setUsername(user.getEmail());
+            authUser.setPassword(user.getPasswordHash());
+            return authUser;
+        }
+        return null;
     }
 }

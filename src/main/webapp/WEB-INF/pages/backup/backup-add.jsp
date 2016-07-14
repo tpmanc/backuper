@@ -13,6 +13,7 @@
 
 <div class="new-server-form">
     <form action="<spring:url value="/backup/save/handler" />" method="post" autocomplete="off">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <input type="hidden" name="serverId" value="${server.id}">
         <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <input class="mdl-textfield__input" type="text" autocomplete="off" id="title" name="title">

@@ -1,9 +1,13 @@
 package controllers;
 
+import authentication.CustomUser;
+import exceptions.ForbiddenException;
 import exceptions.NotFoundException;
+import helpers.UserHelper;
 import models.BackupDatabase;
 import models.BackupFiles;
 import models.Server;
+import models.User;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import services.ServerService;
+import services.UserService;
 
+import java.security.Principal;
 import java.util.*;
 
 @Controller
@@ -24,14 +30,20 @@ public class ServerController {
     public ServerService serverService;
 
     @Autowired
+    public UserService userService;
+
+    @Autowired
     private SessionFactory sessionFactory;
 
     @RequestMapping(value = {"/servers"}, method = RequestMethod.GET)
     public String sites(
-            Model model
+            Model model,
+            Principal principal
     ) {
+        CustomUser customUser = UserHelper.getCustomUser(principal);
+        User user = userService.getById(customUser.getId());
         String title = "Servers";
-        List<Server> servers = serverService.getAll();
+        List<Server> servers = serverService.getAllByUserId(user);
 
         Map<String, String> breadcrumbs = new LinkedHashMap<String, String>();
         breadcrumbs.put("Servers", null);
@@ -46,8 +58,10 @@ public class ServerController {
     @RequestMapping(value = {"/server/{id}"}, method = RequestMethod.GET)
     public String site(
             @PathVariable int id,
-            Model model
+            Model model,
+            Principal principal
     ) {
+        CustomUser customUser = UserHelper.getCustomUser(principal);
         Server server = serverService.getById(id);
         if (server == null) {
             throw new NotFoundException("Page Not Found");
@@ -56,9 +70,14 @@ public class ServerController {
 
         Session session = sessionFactory.openSession();
         server = (Server) session.merge(server);
+        Hibernate.initialize(server.getUser());
         Hibernate.initialize(server.getBackupsDatabase());
         Hibernate.initialize(server.getBackupsFiles());
         session.close();
+
+        if (customUser.getId() != server.getUser().getId()) {
+            throw new ForbiddenException("Forbidden");
+        }
 
         Set<BackupDatabase> backupsDatabase = server.getBackupsDatabase();
         model.addAttribute("backupsDatabase", backupsDatabase);
@@ -97,9 +116,13 @@ public class ServerController {
             @RequestParam String url,
             @RequestParam String sftpUser,
             @RequestParam String sftpPassword,
-            @RequestParam Integer sftpPort
+            @RequestParam Integer sftpPort,
+            Principal principal
     ) {
+        CustomUser customUser = UserHelper.getCustomUser(principal);
+        User user = userService.getById(customUser.getId());
         Server server = new Server();
+        server.setUser(user);
         server.setTitle(title);
         server.setUrl(url);
         server.setSftpUser(sftpUser);

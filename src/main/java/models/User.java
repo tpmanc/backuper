@@ -1,6 +1,7 @@
 package models;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name="user")
@@ -18,6 +19,9 @@ public class User {
 
     @Column(name="is_disabled")
     private boolean isDisabled;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Server> servers;
 
     public int getId() {
         return id;
@@ -49,5 +53,13 @@ public class User {
 
     public void setDisabled(boolean disabled) {
         isDisabled = disabled;
+    }
+
+    public Set<Server> getServers() {
+        return servers;
+    }
+
+    public void setServers(Set<Server> servers) {
+        this.servers = servers;
     }
 }

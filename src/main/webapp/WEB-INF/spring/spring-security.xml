@@ -11,10 +11,11 @@
         <csrf disabled="false" />
         <intercept-url pattern="/sign-in" access="!isAuthenticated()" />
         <intercept-url pattern="/sign-up" access="!isAuthenticated()" />
+        <intercept-url pattern="/sign-up/handler" access="!isAuthenticated()" />
         <intercept-url pattern="/sign-out" access="isAuthenticated()" />
-        <!--<intercept-url pattern="/init-settings" access="permitAll" />-->
+        <intercept-url pattern="/resources/**" access="permitAll()" />
         <!--<intercept-url pattern="/settings-save" access="permitAll" />-->
-        <intercept-url pattern="/*" access="isAuthenticated()" />
+        <intercept-url pattern="/**" access="isAuthenticated()" />
         <form-login
                 login-processing-url="/j_spring_security_check"
                 login-page="/sign-in"

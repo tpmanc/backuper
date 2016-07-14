@@ -33,6 +33,10 @@ public class Server {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "server", cascade = CascadeType.ALL)
     private Set<BackupFiles> backupsFiles;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public int getId() {
         return id;
     }
@@ -95,5 +99,13 @@ public class Server {
 
     public void setBackupsFiles(Set<BackupFiles> backupsFiles) {
         this.backupsFiles = backupsFiles;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

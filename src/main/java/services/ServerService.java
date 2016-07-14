@@ -2,6 +2,7 @@ package services;
 
 import dao.ServerDAO;
 import models.Server;
+import models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -37,5 +38,10 @@ public class ServerService {
     @Transactional
     public List<Server> getAll() {
         return serverDAO.getAll();
+    }
+
+    @Transactional
+    public List<Server> getAllByUserId(User user) {
+        return serverDAO.getAllByUserId(user);
     }
 }
