@@ -1,12 +1,13 @@
 package controllers;
 
 import com.jcraft.jsch.*;
+import authentication.CustomUser;
 import config.IsFilled;
 import helpers.PasswordHelper;
-import helpers.UserHelper;
 import models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,45 +34,7 @@ public class IndexController {
         if (!isFilled.isFilled()) {
 //            return "redirect:/init-settings";
         }
-        UserHelper.getUser(principal).getId();
 
-        Session session = null;
-        Channel channel = null;
-//        try {>
-//            JSch ssh = new JSch();
-//            session = ssh.getSession("user", "95.165.144.117", 665);
-//            session.setPassword("Pa$$w0rd");
-//
-//            java.util.Properties config = new java.util.Properties();
-//            config.put("StrictHostKeyChecking", "no");
-//            session.setConfig(config);
-//
-//            session.connect();
-//            channel = session.openChannel("sftp");
-//            channel.connect();
-//            ChannelSftp sftp = (ChannelSftp) channel;
-//            sftp.lcd("/Users/tpmanc/Downloads/");
-//            sftp.get("/home/user/www/chukancev.ru/requirements.php", "/Users/tpmanc/Downloads/requirements.php");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (channel != null) {
-//                channel.disconnect();
-//            }
-//            if (session != null) {
-//                session.disconnect();
-//            }
-//        }
-
-//        File file = fileService.getFile(2);
-//
-//        List<File> list = fileService.getAll();
-//
-//        File edit = list.get(13);
-//        edit.setTitle("TEST");
-//        fileService.save(edit);
-//
-//        model.addAttribute("title", "Index page");
         return "index/index";
     }
 

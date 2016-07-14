@@ -38,4 +38,11 @@
         <property name="dao" ref="userDao"/>
     </bean>
 
+    <bean id="authUserDao" class="dao.AuthUserDAO">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="authUserService" class="services.AuthUserService">
+        <property name="dao" ref="authUserDao"/>
+    </bean>
+
 </beans>

@@ -19,8 +19,8 @@
         </property>
     </bean>
 
-    <bean id="customAuthenticationProvider" class="components.CustomAuthenticationProvider">
-        <property name="userService" ref="userService"/>
+    <bean id="customAuthenticationProvider" class="authentication.CustomAuthenticationProvider">
+        <property name="authUserService" ref="authUserService"/>
     </bean>
 
     <bean id="appProperties" class="config.AppProperties">

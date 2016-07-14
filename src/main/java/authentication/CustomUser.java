@@ -1,28 +1,19 @@
-package components;
+package authentication;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.HashSet;
 
-public class UserDetailsImpl implements UserDetails {
+
+public class CustomUser implements UserDetails {
     private int id;
     private String username;
     private String password;
-    private Collection<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
-    }
-
-    public UserDetailsImpl(String username, String password,
-                           Collection<GrantedAuthority> authorities, int id) {
-        this.username = username;
-        this.password = password;
-        this.authorities = authorities;
-        this.id = id;
+        return null;
     }
 
     @Override
@@ -57,5 +48,17 @@ public class UserDetailsImpl implements UserDetails {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
