@@ -31,4 +31,11 @@
         <property name="dao" ref="archiveDatabaseDAO"/>
     </bean>
 
+    <bean id="userDao" class="dao.UserDAO">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="userService" class="services.UserService">
+        <property name="dao" ref="userDao"/>
+    </bean>
+
 </beans>

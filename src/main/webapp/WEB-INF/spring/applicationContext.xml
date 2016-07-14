@@ -19,7 +19,9 @@
         </property>
     </bean>
 
-    <bean id="customAuthenticationProvider" class="components.CustomAuthenticationProvider" />
+    <bean id="customAuthenticationProvider" class="components.CustomAuthenticationProvider">
+        <property name="userService" ref="userService"/>
+    </bean>
 
     <bean id="appProperties" class="config.AppProperties">
         <property name="appName" value="backup_cloud"/>

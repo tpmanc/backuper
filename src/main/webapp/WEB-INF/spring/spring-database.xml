@@ -41,6 +41,7 @@
                 <value>models.BackupFiles</value>
                 <value>models.ArchiveDatabase</value>
                 <value>models.ArchiveFiles</value>
+                <value>models.User</value>
             </list>
         </property>
     </bean>

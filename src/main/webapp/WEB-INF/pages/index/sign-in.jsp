@@ -5,8 +5,6 @@
 
 <jsp:include page="../layouts/layout_top.jsp" />
 
-<script src="<spring:url value="/resources/js/pages/catalog/index.js" />"></script>
-
 <h3>Sign In</h3>
 <div class="new-site-form">
     <form action="<spring:url value='/j_spring_security_check' />" method="post">
@@ -26,7 +24,7 @@
             Sign In
         </button>
 
-        <a href="sign-up.html" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+        <a href="<spring:url value='/sign-up' />" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
             Sign Up
         </a>
     </form>
