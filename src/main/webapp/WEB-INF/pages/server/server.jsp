@@ -57,7 +57,7 @@
 
 </div>
 
-<a href="<spring:url value="/backup/add?id=${server.id}" />" id="addBackup" class="fixed-button mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+<a href="<spring:url value="/backup/add?id=${server.id}" />" id="addBackup" class="add-backup-btn fixed-button mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
     <i class="material-icons">add</i>
 </a>
 <div class="mdl-tooltip mdl-tooltip--top" for="addBackup">Add new backup</div>

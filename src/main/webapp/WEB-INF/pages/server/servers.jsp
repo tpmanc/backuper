@@ -27,8 +27,7 @@
                     <i class="material-icons">more_vert</i>
                 </button>
                 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="server${server.id}Menu">
-                    <li class="mdl-menu__item"><a href="${server.url}" target="_blank">Link</a></li>
-                    <li class="mdl-menu__item">Edit</li>
+                    <li class="mdl-menu__item btn-a"><a href="<spring:url value="/server/edit/${server.id}" />">Edit</a></li>
                     <li class="mdl-menu__item">Delete</li>
                 </ul>
             </div>

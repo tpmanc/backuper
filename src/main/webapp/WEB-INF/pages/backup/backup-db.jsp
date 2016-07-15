@@ -6,13 +6,13 @@
 
 <jsp:include page="../layouts/layout_top.jsp" />
 
-<script src="<spring:url value="/resources/js/pages/backup/backup-add.js" />"></script>
+<script src="<spring:url value="/resources/js/pages/backup/backup.js" />"></script>
 
 <jsp:include page="../components/breadcrumbs.jsp" />
 
 <h3>${title}</h3>
 
-<table class="backup-table mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+<table class="backup-table event-table mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
     <thead>
     <tr>
         <th class="mdl-data-table__cell--non-numeric">Title</th>
@@ -57,9 +57,15 @@
     </tbody>
 </table>
 
-<a href="<spring:url value="/backup/database/run/${backupDatabase.id}" />" id="runBackup" class="fixed-button mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+<a href="<spring:url value="/backup/database/run/${backupDatabase.id}" />" id="runBackup" class="run-backup-btn fixed-button mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
     <i class="material-icons">play_arrow</i>
 </a>
 <div class="mdl-tooltip mdl-tooltip--top" for="runBackup">Run database backup</div>
+
+
+<button id="deleteBackup" class="delete-btn delete-btn-hidden fixed-button mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+    <i class="material-icons">delete</i>
+</button>
+<div class="mdl-tooltip mdl-tooltip--top" for="deleteBackup">Delete selected backups</div>
 
 <jsp:include page="../layouts/layout_bottom.jsp" />

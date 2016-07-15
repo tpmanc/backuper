@@ -6,7 +6,9 @@ import exceptions.InternalException;
 import exceptions.NotFoundException;
 import helpers.HashHelper;
 import helpers.SshDatabaseBackuper;
+import helpers.database.DatabaseConnectionInterface;
 import helpers.database.MysqlConnection;
+import helpers.database.PostgresqlConnection;
 import models.ArchiveDatabase;
 import models.BackupDatabase;
 import models.BackupFiles;
@@ -271,9 +273,17 @@ public class BackupController {
         session.close();
         Server server = backupDatabase.getServer();
 
-        MysqlConnection mysqlConnection = new MysqlConnection(backupDatabase.getDatabaseUser(), backupDatabase.getDatabasePassword(), backupDatabase.getDatabaseName(), 3301);
+        DatabaseConnectionInterface dbConnection;
+        if (backupDatabase.getDatabaseType() == 1) {
+            dbConnection = new MysqlConnection(backupDatabase.getDatabaseUser(), backupDatabase.getDatabasePassword(), backupDatabase.getDatabaseName(), 3301);
+        } else if (backupDatabase.getDatabaseType() == 2) {
+            dbConnection = new PostgresqlConnection(backupDatabase.getDatabaseUser(), backupDatabase.getDatabasePassword(), backupDatabase.getDatabaseName(), 5432);
+        } else {
+            dbConnection = null;
+        }
+
         try {
-            SshDatabaseBackuper sshDatabaseBackuper = new SshDatabaseBackuper(server.getUrl(), server.getSftpPort(), server.getSftpUser(), server.getSftpPassword(), mysqlConnection);
+            SshDatabaseBackuper sshDatabaseBackuper = new SshDatabaseBackuper(server.getUrl(), server.getSftpPort(), server.getSftpUser(), server.getSftpPassword(), dbConnection);
             String filePath = sshDatabaseBackuper.createDatabaseBackup();
 
             File file = new File(filePath);

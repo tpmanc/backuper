@@ -113,48 +113,59 @@ html, body {
     z-index: 2;
 }
 
-.server-card-wide.mdl-card {
-    margin: 10px;
-    overflow: visible;
-}
-.server-card-wide > .mdl-card__title {
-    position: relative;
-    color: #fff;
-    text-shadow: 0 0 5px #000;
-    height: 147px;
-    background: rgba(0,0,0,0.4);
+.server-card-wide {
+    &.mdl-card {
+        margin: 10px;
+        overflow: visible;
+    }
+
+    > .mdl-card__title {
+        position: relative;
+        color: #fff;
+        text-shadow: 0 0 5px #000;
+        height: 147px;
+        background: rgba(0,0,0,0.4);
+
+        .bg {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: url('http://a-brikos.ru/images/logo.jpg') center / cover;
+            z-index: -1;
+        }
+    }
+
+    > .mdl-card__menu {
+        .mdl-button {
+            color: #fff;
+        }
+    }
 }
 
-.server-card-wide > .mdl-card__title .bg {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    background: url('http://a-brikos.ru/images/logo.jpg') center / cover;
-    z-index: -1;
-}
-
-.backup-card-wide.mdl-card {
-    margin: 10px;
-    overflow: visible;
-}
-.backup-card-wide > .mdl-card__title {
-    position: relative;
-    color: #fff;
-    text-shadow: 0px 0px 5px #000;
-    height: 147px;
-    background-color: #009688;
-    background-image: url('../img/database.png');
-    background-position: right top;
-    background-repeat: no-repeat;
-    background-size: 54% auto;
-}
 .backup-card-wide {
+    &.mdl-card {
+        margin: 10px;
+        overflow: visible;
+    }
+
     > .mdl-card__menu {
         > .mdl-button {
             color: #fff;
         }
+    }
+
+    > .mdl-card__title {
+        position: relative;
+        color: #fff;
+        text-shadow: 0px 0px 5px #000;
+        height: 147px;
+        background-color: #009688;
+        background-image: url('../img/database.png');
+        background-position: right top;
+        background-repeat: no-repeat;
+        background-size: 54% auto;
     }
 }
 
@@ -216,14 +227,14 @@ html, body {
 
 .breadcrumbs {
     width: 100%;
-    
+
     ul {
         padding: 0;
         margin: 24px 0 0 0;
-        
+
         li {
             display: inline;
-            
+
             &:after {
                 content: " > ";
                 width: 30px;
@@ -286,7 +297,7 @@ html, body {
 
 .btn-a {
     padding: 0;
-    
+
     & > a {
         padding: 0 16px;
         color: rgba(0, 0, 0, .87);
@@ -316,6 +327,23 @@ html, body {
             text-align: left;
             outline: none;
             cursor: pointer;
+            font-size: 14px;
         }
+    }
+}
+
+.run-backup-btn {
+    transition: transform 0.3s ease-out 0s;
+
+    &.run-backup-btn-hidden {
+        transform: translateY(200px);
+    }
+}
+
+.delete-btn {
+    transition: transform 0.3s ease-out 0s;
+
+    &.delete-btn-hidden {
+        transform: translateY(200px);
     }
 }
