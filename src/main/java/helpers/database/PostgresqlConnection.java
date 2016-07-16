@@ -21,11 +21,6 @@ public class PostgresqlConnection implements DatabaseConnectionInterface {
     }
 
     @Override
-    public String getTablesCountCommand() {
-        return "mysql -u "+user+" -p'"+password+"' -N -e \"SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '"+database+"'\"";
-    }
-
-    @Override
     public String getDbName() {
         return database;
     }

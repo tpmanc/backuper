@@ -7,22 +7,13 @@ import helpers.database.DatabaseConnectionInterface;
 
 import java.io.IOException;
 
-public class SshDatabaseBackuper extends SshConnect {
+public class SshDatabaseBackup extends SshConnect {
     private DatabaseConnectionInterface dbConnection;
 
-    public SshDatabaseBackuper(String address, int port, String user, String password, DatabaseConnectionInterface dbConnection) throws JSchException {
+    public SshDatabaseBackup(String address, int port, String user, String password, DatabaseConnectionInterface dbConnection) throws JSchException {
         super(address, port, user, password);
         this.dbConnection = dbConnection;
         sshConnect();
-    }
-
-    public Integer getTablesCount() throws IOException, JSchException {
-        String result = executeBash(dbConnection.getTablesCountCommand());
-        try {
-            return Integer.parseInt(result);
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     public String createDatabaseBackup() throws JSchException, IOException, SftpException {

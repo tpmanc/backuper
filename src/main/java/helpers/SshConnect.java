@@ -19,7 +19,7 @@ public class SshConnect {
     protected String archiveNameDate;
     protected String archiveExtension = ".tar.gz";
 
-    private String tempDir = "/tmp";
+    protected String tempDir = "/tmp";
 
     public SshConnect(String address, int port, String user, String password) {
         this.address = address;
@@ -40,6 +40,10 @@ public class SshConnect {
         config.put("StrictHostKeyChecking", "no");
         session.setConfig(config);
         session.connect();
+    }
+
+    public void disconnect() {
+        session.disconnect();
     }
 
     public String executeBash(String command) throws JSchException, IOException {

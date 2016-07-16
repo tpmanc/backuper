@@ -9,21 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>${title}</title>
 
-    <!-- Add to homescreen for Chrome on Android -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <link rel="icon" sizes="192x192" href="images/android-desktop.png">
+    <link rel="shortcut icon" href="<spring:url value="/resources/img/" />">
 
-    <!-- Add to homescreen for Safari on iOS -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
-    <link rel="apple-touch-icon-precomposed" href="images/ios-desktop.png">
 
-    <!-- Tile icon for Win8 (144x144 + tile color) -->
-    <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
-    <meta name="msapplication-TileColor" content="#3372DF">
-
-    <link rel="shortcut icon" href="images/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="<spring:url value="/resources/img/favicon/apple-touch-icon.png" />">
+    <link rel="icon" type="image/png" href="<spring:url value="/resources/img/favicon/favicon-32x32.png" />" sizes="32x32">
+    <link rel="icon" type="image/png" href="<spring:url value="/resources/img/favicon/favicon-16x16.png" />" sizes="16x16">
+    <link rel="manifest" href="<spring:url value="/resources/img/favicon/manifest.json" />">
+    <link rel="mask-icon" href="<spring:url value="/resources/img/favicon/safari-pinned-tab.svg" />" color="#5bbad5">
+    <meta name="theme-color" content="#ffffff">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">

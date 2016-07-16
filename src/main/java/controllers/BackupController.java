@@ -5,14 +5,12 @@ import com.jcraft.jsch.SftpException;
 import exceptions.InternalException;
 import exceptions.NotFoundException;
 import helpers.HashHelper;
-import helpers.SshDatabaseBackuper;
+import helpers.SshDatabaseBackup;
+import helpers.SshFilesBackup;
 import helpers.database.DatabaseConnectionInterface;
 import helpers.database.MysqlConnection;
 import helpers.database.PostgresqlConnection;
-import models.ArchiveDatabase;
-import models.BackupDatabase;
-import models.BackupFiles;
-import models.Server;
+import models.*;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -23,10 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import services.ArchiveDatabaseService;
-import services.BackupDatabaseService;
-import services.BackupFilesService;
-import services.ServerService;
+import services.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,6 +42,9 @@ public class BackupController {
 
     @Autowired
     public ArchiveDatabaseService archiveDatabaseService;
+
+    @Autowired
+    public ArchiveFilesService archiveFilesService;
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -283,8 +281,8 @@ public class BackupController {
         }
 
         try {
-            SshDatabaseBackuper sshDatabaseBackuper = new SshDatabaseBackuper(server.getUrl(), server.getSftpPort(), server.getSftpUser(), server.getSftpPassword(), dbConnection);
-            String filePath = sshDatabaseBackuper.createDatabaseBackup();
+            SshDatabaseBackup sshDatabaseBackup = new SshDatabaseBackup(server.getUrl(), server.getSftpPort(), server.getSftpUser(), server.getSftpPassword(), dbConnection);
+            String filePath = sshDatabaseBackup.createDatabaseBackup();
 
             File file = new File(filePath);
             String hash = HashHelper.getHash(filePath);
@@ -311,8 +309,53 @@ public class BackupController {
 
         }
 
-
-
         return "redirect:/backup/database/"+backupDatabase.getId();
+    }
+
+    @RequestMapping(value = {"/backup/files/run/{id}"}, method = RequestMethod.GET)
+    public String backupFilesRun(
+            @PathVariable int id
+    ) {
+        BackupFiles backupFiles = backupFilesService.getById(id);
+        if (backupFiles == null) {
+            throw new NotFoundException("Page Not Found");
+        }
+
+        Session session = sessionFactory.openSession();
+        backupFiles = (BackupFiles) session.merge(backupFiles);
+        Hibernate.initialize(backupFiles.getServer());
+        session.close();
+        Server server = backupFiles.getServer();
+
+        try {
+            SshFilesBackup sshFilesBackup = new SshFilesBackup(server.getUrl(), server.getSftpPort(), server.getSftpUser(), server.getSftpPassword(), backupFiles);
+            String filePath = sshFilesBackup.createFilesBackup(backupFiles.getTitle());
+            sshFilesBackup.disconnect();
+
+            File file = new File(filePath);
+            String hash = HashHelper.getHash(filePath);
+            double fileSize = file.length(); // bytes
+            File newFile = new File(HashHelper.getHashDir(hash) + file.getName());
+            file.renameTo(newFile);
+            ArchiveFiles model = new ArchiveFiles();
+            model.setName(file.getName());
+            model.setHash(hash);
+            model.setSize(fileSize);
+            model.setForDelete(false);
+            archiveFilesService.create(model);
+        } catch (JSchException e) {
+            e.printStackTrace();
+            throw new InternalException("Cant create backup");
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new InternalException("Cant create backup");
+        } catch (SftpException e) {
+            e.printStackTrace();
+            throw new InternalException("Cant create backup");
+        } finally {
+
+        }
+
+        return "redirect:/backup/files/"+backupFiles.getId();
     }
 }
