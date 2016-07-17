@@ -4,6 +4,7 @@ import authentication.CustomUser;
 import exceptions.ForbiddenException;
 import exceptions.NotFoundException;
 import helpers.UserHelper;
+import helpers.ValidationHelper;
 import models.BackupDatabase;
 import models.BackupFiles;
 import models.Server;
@@ -14,18 +15,18 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.DataBinder;
-import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
+import org.springframework.validation.*;
+import org.springframework.web.bind.EscapedErrors;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import services.ServerService;
 import services.UserService;
 import validators.ServerValidator;
 
+import java.lang.reflect.Array;
 import java.security.Principal;
 import java.util.*;
 
@@ -40,11 +41,8 @@ public class ServerController {
     @Autowired
     private SessionFactory sessionFactory;
 
-    @Autowired
-    private ServerValidator serverValidator;
-
     @RequestMapping(value = {"/servers"}, method = RequestMethod.GET)
-    public String sites(
+    public String servers(
             Model model,
             Principal principal
     ) {
@@ -64,7 +62,7 @@ public class ServerController {
     }
 
     @RequestMapping(value = {"/server/{id}"}, method = RequestMethod.GET)
-    public String site(
+    public String server(
             @PathVariable int id,
             Model model,
             Principal principal
@@ -104,7 +102,7 @@ public class ServerController {
     }
 
     @RequestMapping(value = {"/server/add"}, method = RequestMethod.GET)
-    public String siteAdd(
+    public String serverAdd(
             Model model
     ) {
         String title = "Add New Server";
@@ -119,7 +117,7 @@ public class ServerController {
     }
 
     @RequestMapping(value = {"/server/edit/{id}"}, method = RequestMethod.GET)
-    public String siteEdit(
+    public String serverEdit(
             @PathVariable int id,
             Model model
     ) {
@@ -141,13 +139,14 @@ public class ServerController {
     }
 
     @RequestMapping(value = {"/server/save/handler"}, method = RequestMethod.POST)
-    public String siteAddHandler(
+    public String serverAddHandler(
             @RequestParam(value="serverId", required=false) Integer serverId,
             @RequestParam String title,
             @RequestParam String url,
             @RequestParam String sftpUser,
             @RequestParam String sftpPassword,
             @RequestParam Integer sftpPort,
+            RedirectAttributes attr,
             Principal principal
     ) {
         if (serverId == null) {
@@ -160,7 +159,15 @@ public class ServerController {
             server.setSftpUser(sftpUser);
             server.setSftpPassword(sftpPassword);
             server.setSftpPort(sftpPort);
-            serverService.create(server);
+            Map<String, ArrayList<String>> errors = ValidationHelper.validate(server, new ServerValidator());
+            if (errors.size() > 0) {
+                attr.addFlashAttribute("server", server);
+                attr.addFlashAttribute("errors", errors);
+                return "redirect:/server/add";
+            } else {
+                serverService.create(server);
+                return "redirect:/servers";
+            }
         } else {
             Server server = serverService.getById(serverId);
             if (server == null) {
@@ -171,15 +178,15 @@ public class ServerController {
             server.setSftpUser(sftpUser);
             server.setSftpPassword(sftpPassword);
             server.setSftpPort(sftpPort);
-            DataBinder binder = new DataBinder(server);
-            binder.setValidator(new ServerValidator());
-            binder.validate();
-            if (binder.getBindingResult().hasErrors()) {
-                Errors errors = new Err
-                binder.getBindingResult().addAllErrors();
+
+            Map<String, ArrayList<String>> errors = ValidationHelper.validate(server, new ServerValidator());
+            if (errors.size() > 0) {
+                attr.addFlashAttribute("errors", errors);
+                return "redirect:/server/edit/" + server.getId();
+            } else {
+                serverService.update(server);
+                return "redirect:/servers";
             }
-            serverService.update(server);
         }
-        return "redirect:/servers";
     }
 }

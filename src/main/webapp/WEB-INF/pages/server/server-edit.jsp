@@ -13,9 +13,12 @@
     <form action="<spring:url value="/server/save/handler" />" method="post" autocomplete="off">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <input type="hidden" name="serverId" value="${server.id}"/>
-        <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label <c:if test="${errors.containsKey('title')}">is-invalid</c:if>">
             <input class="mdl-textfield__input" type="text" autocomplete="off" id="title" name="title" value="${server.title}">
             <label class="mdl-textfield__label" for="title">Title</label>
+            <c:if test="${errors.containsKey('title')}">
+                <span class="mdl-textfield__error">${errors.get('title')[0]}</span>
+            </c:if>
         </div>
 
         <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">

@@ -16,6 +16,7 @@ public class ServerValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "title.empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "title.empty", "Title is required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "title.empty2", "Title is required2");
     }
 }

@@ -13,27 +13,27 @@
     <form action="<spring:url value="/server/save/handler" />" method="post" autocomplete="off">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" autocomplete="off" id="title" name="title">
+            <input class="mdl-textfield__input" type="text" autocomplete="off" id="title" name="title" value="${server.title}">
             <label class="mdl-textfield__label" for="title">Title</label>
         </div>
 
         <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" autocomplete="off" id="url" name="url">
+            <input class="mdl-textfield__input" type="text" autocomplete="off" id="url" name="url" value="${server.url}">
             <label class="mdl-textfield__label" for="url">Host</label>
         </div>
 
         <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" autocomplete="off" id="sftpUser" name="sftpUser">
+            <input class="mdl-textfield__input" type="text" autocomplete="off" id="sftpUser" name="sftpUser" value="${server.sftpUser}">
             <label class="mdl-textfield__label" for="sftpUser">SFTP User</label>
         </div>
 
         <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="password" autocomplete="off" id="sftpPassword" name="sftpPassword">
+            <input class="mdl-textfield__input" type="password" autocomplete="off" id="sftpPassword" name="sftpPassword" value="${server.sftpPassword}">
             <label class="mdl-textfield__label" for="sftpPassword">SFTP Password</label>
         </div>
 
         <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="number" autocomplete="off" id="sftpPort" name="sftpPort">
+            <input class="mdl-textfield__input" type="number" autocomplete="off" id="sftpPort" name="sftpPort" value="${server.sftpPort}">
             <label class="mdl-textfield__label" for="sftpPort">SFTP Port</label>
         </div>
 
