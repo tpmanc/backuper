@@ -11,17 +11,24 @@
 
 <div class="new-server-form">
     <form action="<spring:url value="/backup/save/handler" />" method="post" autocomplete="off">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <input type="hidden" name="backupType" value="2">
         <input type="hidden" name="backupId" value="${backupFiles.id}">
         <input type="hidden" name="serverId" value="${backupFiles.server.id}">
-        <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label <c:if test="${errors.containsKey('title')}">is-invalid</c:if>">
             <input class="mdl-textfield__input" type="text" autocomplete="off" id="title" name="title" value="${backupFiles.title}">
             <label class="mdl-textfield__label" for="title">Title</label>
+            <c:if test="${errors.containsKey('title')}">
+                <span class="mdl-textfield__error">${errors.get('title')[0]}</span>
+            </c:if>
         </div>
 
-        <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label <c:if test="${errors.containsKey('folder')}">is-invalid</c:if>">
             <input class="mdl-textfield__input" type="text" autocomplete="off" id="filesFolder" name="filesFolder" value="${backupFiles.folder}">
             <label class="mdl-textfield__label" for="filesFolder">Files Folder</label>
+            <c:if test="${errors.containsKey('folder')}">
+                <span class="mdl-textfield__error">${errors.get('folder')[0]}</span>
+            </c:if>
         </div>
 
         <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">

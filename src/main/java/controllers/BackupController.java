@@ -7,6 +7,7 @@ import exceptions.NotFoundException;
 import helpers.HashHelper;
 import helpers.SshDatabaseBackup;
 import helpers.SshFilesBackup;
+import helpers.ValidationHelper;
 import helpers.database.DatabaseConnectionInterface;
 import helpers.database.MysqlConnection;
 import helpers.database.PostgresqlConnection;
@@ -21,10 +22,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import services.*;
+import validators.BackupDatabaseValidator;
+import validators.BackupFilesValidator;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -204,7 +209,8 @@ public class BackupController {
             @RequestParam(value="dbPassword", required=false) String dbPassword,
             @RequestParam(value="dbName", required=false) String dbName,
             @RequestParam(value="filesFolder", required=false) String filesFolder,
-            @RequestParam(value="filesIgnore", required=false) String filesIgnore
+            @RequestParam(value="filesIgnore", required=false) String filesIgnore,
+            RedirectAttributes attr
     ) {
         Server server = serverService.getById(serverId);
         if (server == null) {
@@ -219,7 +225,17 @@ public class BackupController {
                 model.setDatabaseUser(dbUser);
                 model.setDatabasePassword(dbPassword);
                 model.setDatabaseName(dbName);
-                backupDatabaseService.create(model);
+
+                Map<String, ArrayList<String>> errors = ValidationHelper.validate(model, new BackupDatabaseValidator());
+                if (errors.size() > 0) {
+                    attr.addFlashAttribute("backup", model);
+                    attr.addFlashAttribute("backupType", backupType);
+                    attr.addFlashAttribute("errors", errors);
+                    return "redirect:/backup/add?id=" + server.getId();
+                } else {
+                    backupDatabaseService.create(model);
+                    return "redirect:/backup/database/" + model.getId();
+                }
             } else {
                 BackupDatabase model = backupDatabaseService.getById(backupId);
                 if (model == null) {
@@ -230,7 +246,16 @@ public class BackupController {
                 model.setDatabaseUser(dbUser);
                 model.setDatabasePassword(dbPassword);
                 model.setDatabaseName(dbName);
-                backupDatabaseService.update(model);
+
+                Map<String, ArrayList<String>> errors = ValidationHelper.validate(model, new BackupDatabaseValidator());
+                if (errors.size() > 0) {
+                    attr.addFlashAttribute("backupDatabase", model);
+                    attr.addFlashAttribute("errors", errors);
+                    return "redirect:/backup/database/edit/" + model.getId();
+                } else {
+                    backupDatabaseService.update(model);
+                    return "redirect:/backup/database/" + model.getId();
+                }
             }
         } else if (backupType == 2) {
             if (backupId == null) {
@@ -239,7 +264,17 @@ public class BackupController {
                 model.setTitle(title);
                 model.setFolder(filesFolder);
                 model.setIgnoreFiles(filesIgnore);
-                backupFilesService.create(model);
+
+                Map<String, ArrayList<String>> errors = ValidationHelper.validate(model, new BackupFilesValidator());
+                if (errors.size() > 0) {
+                    attr.addFlashAttribute("backup", model);
+                    attr.addFlashAttribute("backupType", backupType);
+                    attr.addFlashAttribute("errors", errors);
+                    return "redirect:/backup/add?id=" + server.getId();
+                } else {
+                    backupFilesService.create(model);
+                    return "redirect:/backup/files/" + model.getId();
+                }
             } else {
                 BackupFiles model = backupFilesService.getById(backupId);
                 if (model == null) {
@@ -248,12 +283,20 @@ public class BackupController {
                 model.setTitle(title);
                 model.setFolder(filesFolder);
                 model.setIgnoreFiles(filesIgnore);
-                backupFilesService.update(model);
+
+                Map<String, ArrayList<String>> errors = ValidationHelper.validate(model, new BackupFilesValidator());
+                if (errors.size() > 0) {
+                    attr.addFlashAttribute("backup", model);
+                    attr.addFlashAttribute("errors", errors);
+                    return "redirect:/backup/files/edit/" + model.getId();
+                } else {
+                    backupFilesService.update(model);
+                    return "redirect:/backup/files/" + model.getId();
+                }
             }
         } else {
             throw new NotFoundException("Page Not Found");
         }
-        return "redirect:/server/"+serverId;
     }
 
     @RequestMapping(value = {"/backup/database/run/{id}"}, method = RequestMethod.GET)

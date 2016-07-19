@@ -14,4 +14,6 @@ $(function(){
             filesSettings.show();
         }
     });
+
+    $('input[type="radio"][name="backupType"]:checked').trigger('change');
 });
