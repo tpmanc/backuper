@@ -143,9 +143,9 @@ public class ServerController {
             @RequestParam(value="serverId", required=false) Integer serverId,
             @RequestParam String title,
             @RequestParam String url,
-            @RequestParam String sftpUser,
-            @RequestParam String sftpPassword,
-            @RequestParam Integer sftpPort,
+            @RequestParam String sshUser,
+            @RequestParam String sshPassword,
+            @RequestParam Integer sshPort,
             RedirectAttributes attr,
             Principal principal
     ) {
@@ -155,10 +155,10 @@ public class ServerController {
             Server server = new Server();
             server.setUser(user);
             server.setTitle(title);
-            server.setUrl(url);
-            server.setSftpUser(sftpUser);
-            server.setSftpPassword(sftpPassword);
-            server.setSftpPort(sftpPort);
+            server.setHost(url);
+            server.setSshUser(sshUser);
+            server.setSshPassword(sshPassword);
+            server.setSshPort(sshPort);
             Map<String, ArrayList<String>> errors = ValidationHelper.validate(server, new ServerValidator());
             if (errors.size() > 0) {
                 attr.addFlashAttribute("server", server);
@@ -174,10 +174,10 @@ public class ServerController {
                 throw new NotFoundException("Server Not Found");
             }
             server.setTitle(title);
-            server.setUrl(url);
-            server.setSftpUser(sftpUser);
-            server.setSftpPassword(sftpPassword);
-            server.setSftpPort(sftpPort);
+            server.setHost(url);
+            server.setSshUser(sshUser);
+            server.setSshPassword(sshPassword);
+            server.setSshPort(sshPort);
 
             Map<String, ArrayList<String>> errors = ValidationHelper.validate(server, new ServerValidator());
             if (errors.size() > 0) {

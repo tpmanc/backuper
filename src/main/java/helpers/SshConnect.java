@@ -31,7 +31,7 @@ public class SshConnect {
         archiveNameDate = df.format(date);
     }
 
-    protected void sshConnect() throws JSchException {
+    public void connect() throws JSchException {
         JSch ssh = new JSch();
         session = ssh.getSession(user, address, port);
         session.setPassword(password);

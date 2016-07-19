@@ -13,7 +13,7 @@ public class SshFilesBackup extends SshConnect {
     public SshFilesBackup(String address, int port, String user, String password, BackupFiles backupFiles) throws JSchException {
         super(address, port, user, password);
         this.backupFiles = backupFiles;
-        sshConnect();
+        connect();
     }
 
     public String createFilesBackup(String name) throws IOException, JSchException, SftpException {

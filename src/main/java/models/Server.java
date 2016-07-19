@@ -15,17 +15,17 @@ public class Server {
     @Column(name="title")
     private String title;
 
-    @Column(name="url")
-    private String url;
+    @Column(name="host")
+    private String host;
 
-    @Column(name="sftp_user")
-    private String sftpUser;
+    @Column(name="ssh_user")
+    private String sshUser;
 
-    @Column(name="sftp_password")
-    private String sftpPassword;
+    @Column(name="ssh_password")
+    private String sshPassword;
 
-    @Column(name="sftp_port")
-    private int sftpPort;
+    @Column(name="ssh_port")
+    private Integer sshPort;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "server", cascade = CascadeType.ALL)
     private Set<BackupDatabase> backupsDatabase;
@@ -53,36 +53,36 @@ public class Server {
         this.title = title;
     }
 
-    public String getUrl() {
-        return url;
+    public String getHost() {
+        return host;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setHost(String host) {
+        this.host = host;
     }
 
-    public String getSftpUser() {
-        return sftpUser;
+    public String getSshUser() {
+        return sshUser;
     }
 
-    public void setSftpUser(String sftpUser) {
-        this.sftpUser = sftpUser;
+    public void setSshUser(String sshUser) {
+        this.sshUser = sshUser;
     }
 
-    public String getSftpPassword() {
-        return sftpPassword;
+    public String getSshPassword() {
+        return sshPassword;
     }
 
-    public void setSftpPassword(String sftpPassword) {
-        this.sftpPassword = sftpPassword;
+    public void setSshPassword(String sshPassword) {
+        this.sshPassword = sshPassword;
     }
 
-    public int getSftpPort() {
-        return sftpPort;
+    public Integer getSshPort() {
+        return sshPort;
     }
 
-    public void setSftpPort(int sftpPort) {
-        this.sftpPort = sftpPort;
+    public void setSshPort(Integer sshPort) {
+        this.sshPort = sshPort;
     }
 
     public Set<BackupDatabase> getBackupsDatabase() {

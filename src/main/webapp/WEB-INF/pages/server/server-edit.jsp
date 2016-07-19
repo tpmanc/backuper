@@ -21,24 +21,36 @@
             </c:if>
         </div>
 
-        <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" autocomplete="off" id="url" name="url" value="${server.url}">
+        <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label <c:if test="${errors.containsKey('host')}">is-invalid</c:if>">
+            <input class="mdl-textfield__input" type="text" autocomplete="off" id="url" name="url" value="${server.host}">
             <label class="mdl-textfield__label" for="url">Host</label>
+            <c:if test="${errors.containsKey('host')}">
+                <span class="mdl-textfield__error">${errors.get('host')[0]}</span>
+            </c:if>
         </div>
 
-        <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" autocomplete="off" id="sftpUser" name="sftpUser" value="${server.sftpUser}">
-            <label class="mdl-textfield__label" for="sftpUser">SFTP User</label>
+        <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label <c:if test="${errors.containsKey('sshUser')}">is-invalid</c:if>">
+            <input class="mdl-textfield__input" type="text" autocomplete="off" id="sshUser" name="sshUser" value="${server.sshUser}">
+            <label class="mdl-textfield__label" for="sshUser">Ssh User</label>
+            <c:if test="${errors.containsKey('sshUser')}">
+                <span class="mdl-textfield__error">${errors.get('sshUser')[0]}</span>
+            </c:if>
         </div>
 
-        <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="password" autocomplete="off" id="sftpPassword" name="sftpPassword" value="${server.sftpPassword}">
-            <label class="mdl-textfield__label" for="sftpPassword">SFTP Password</label>
+        <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label <c:if test="${errors.containsKey('sshPassword')}">is-invalid</c:if>">
+            <input class="mdl-textfield__input" type="password" autocomplete="off" id="sshPassword" name="sshPassword" value="${server.sshPassword}">
+            <label class="mdl-textfield__label" for="sshPassword">Ssh Password</label>
+            <c:if test="${errors.containsKey('sshPassword')}">
+                <span class="mdl-textfield__error">${errors.get('sshPassword')[0]}</span>
+            </c:if>
         </div>
 
-        <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="number" autocomplete="off" id="sftpPort" name="sftpPort"  value="${server.sftpPort}">
-            <label class="mdl-textfield__label" for="sftpPort">SFTP Port</label>
+        <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label <c:if test="${errors.containsKey('sshPort')}">is-invalid</c:if>">
+            <input class="mdl-textfield__input" type="number" autocomplete="off" id="sshPort" name="sshPort"  value="${server.sshPort}">
+            <label class="mdl-textfield__label" for="sshPort">Ssh Port</label>
+            <c:if test="${errors.containsKey('sshPort')}">
+                <span class="mdl-textfield__error">${errors.get('sshPort')[0]}</span>
+            </c:if>
         </div>
 
         <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">

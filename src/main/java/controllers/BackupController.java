@@ -134,6 +134,7 @@ public class BackupController {
         String title = "Add New Backup";
         Map<String, String> breadcrumbs = new LinkedHashMap<String, String>();
         breadcrumbs.put("Servers", "/servers");
+        breadcrumbs.put("Server: " + server.getTitle(), "/server/" + server.getId());
         breadcrumbs.put(title, null);
 
         model.addAttribute("breadcrumbs", breadcrumbs);
@@ -234,7 +235,7 @@ public class BackupController {
                     return "redirect:/backup/add?id=" + server.getId();
                 } else {
                     backupDatabaseService.create(model);
-                    return "redirect:/backup/database/" + model.getId();
+                    return "redirect:/server/" + server.getId();
                 }
             } else {
                 BackupDatabase model = backupDatabaseService.getById(backupId);
@@ -254,7 +255,7 @@ public class BackupController {
                     return "redirect:/backup/database/edit/" + model.getId();
                 } else {
                     backupDatabaseService.update(model);
-                    return "redirect:/backup/database/" + model.getId();
+                    return "redirect:/server/" + server.getId();
                 }
             }
         } else if (backupType == 2) {
@@ -273,7 +274,7 @@ public class BackupController {
                     return "redirect:/backup/add?id=" + server.getId();
                 } else {
                     backupFilesService.create(model);
-                    return "redirect:/backup/files/" + model.getId();
+                    return "redirect:/server/" + server.getId();
                 }
             } else {
                 BackupFiles model = backupFilesService.getById(backupId);
@@ -291,7 +292,7 @@ public class BackupController {
                     return "redirect:/backup/files/edit/" + model.getId();
                 } else {
                     backupFilesService.update(model);
-                    return "redirect:/backup/files/" + model.getId();
+                    return "redirect:/server/" + server.getId();
                 }
             }
         } else {
@@ -324,7 +325,7 @@ public class BackupController {
         }
 
         try {
-            SshDatabaseBackup sshDatabaseBackup = new SshDatabaseBackup(server.getUrl(), server.getSftpPort(), server.getSftpUser(), server.getSftpPassword(), dbConnection);
+            SshDatabaseBackup sshDatabaseBackup = new SshDatabaseBackup(server.getHost(), server.getSshPort(), server.getSshUser(), server.getSshPassword(), dbConnection);
             String filePath = sshDatabaseBackup.createDatabaseBackup();
 
             File file = new File(filePath);
@@ -371,7 +372,7 @@ public class BackupController {
         Server server = backupFiles.getServer();
 
         try {
-            SshFilesBackup sshFilesBackup = new SshFilesBackup(server.getUrl(), server.getSftpPort(), server.getSftpUser(), server.getSftpPassword(), backupFiles);
+            SshFilesBackup sshFilesBackup = new SshFilesBackup(server.getHost(), server.getSshPort(), server.getSshUser(), server.getSshPassword(), backupFiles);
             String filePath = sshFilesBackup.createFilesBackup(backupFiles.getTitle());
             sshFilesBackup.disconnect();
 

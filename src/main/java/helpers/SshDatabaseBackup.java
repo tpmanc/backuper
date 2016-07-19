@@ -13,7 +13,7 @@ public class SshDatabaseBackup extends SshConnect {
     public SshDatabaseBackup(String address, int port, String user, String password, DatabaseConnectionInterface dbConnection) throws JSchException {
         super(address, port, user, password);
         this.dbConnection = dbConnection;
-        sshConnect();
+        connect();
     }
 
     public String createDatabaseBackup() throws JSchException, IOException, SftpException {
