@@ -1,6 +1,7 @@
 package models;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name="backup_files")
@@ -22,6 +23,10 @@ public class BackupFiles {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "server_id")
     private Server server;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "backupFiles", cascade = CascadeType.ALL)
+    @OrderBy("date desc")
+    private Set<ArchiveFiles> archiveFiles;
 
     public int getId() {
         return id;
@@ -61,5 +66,13 @@ public class BackupFiles {
 
     public void setServer(Server server) {
         this.server = server;
+    }
+
+    public Set<ArchiveFiles> getArchiveFiles() {
+        return archiveFiles;
+    }
+
+    public void setArchiveFiles(Set<ArchiveFiles> archiveFiles) {
+        this.archiveFiles = archiveFiles;
     }
 }

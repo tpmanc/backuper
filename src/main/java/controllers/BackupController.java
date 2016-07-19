@@ -103,10 +103,14 @@ public class BackupController {
         Session session = sessionFactory.openSession();
         backupFiles = (BackupFiles) session.merge(backupFiles);
         Hibernate.initialize(backupFiles.getServer());
+        Hibernate.initialize(backupFiles.getArchiveFiles());
         session.close();
 
         Server server = backupFiles.getServer();
         model.addAttribute(server);
+
+        Set<ArchiveFiles> archives = backupFiles.getArchiveFiles();
+        model.addAttribute("archives", archives);
 
         String title = "Files Backup: "+backupFiles.getTitle();
         Map<String, String> breadcrumbs = new LinkedHashMap<String, String>();
@@ -386,6 +390,7 @@ public class BackupController {
             model.setHash(hash);
             model.setSize(fileSize);
             model.setForDelete(false);
+            model.setBackupFiles(backupFiles);
             archiveFilesService.create(model);
         } catch (JSchException e) {
             e.printStackTrace();

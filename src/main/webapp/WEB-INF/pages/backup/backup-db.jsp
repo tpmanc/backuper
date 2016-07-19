@@ -6,8 +6,6 @@
 
 <jsp:include page="../layouts/layout_top.jsp" />
 
-<script src="<spring:url value="/resources/js/pages/backup/backup.js" />"></script>
-
 <jsp:include page="../components/breadcrumbs.jsp" />
 
 <h3>${title}</h3>
@@ -48,7 +46,7 @@
             <jsp:setProperty name="dateValue" property="time" value="${archive.date}"/>
             <td><fmt:formatDate value="${dateValue}" pattern="HH:mm dd.MM.yyyy" /></td>
             <td>
-                <a href="<spring:url value="/backup/download/database/${archive.id}" />" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--mini-fab">
+                <a href="<spring:url value="/backup/download/files/${archive.id}" />" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--mini-fab">
                     <i class="material-icons">file_download</i>
                 </a>
             </td>

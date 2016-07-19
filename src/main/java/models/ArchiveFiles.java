@@ -25,6 +25,10 @@ public class ArchiveFiles {
     @Column(name="for_delete", nullable = false)
     private boolean forDelete;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "backup_files_id")
+    private BackupFiles backupFiles;
+
     public int getId() {
         return id;
     }
@@ -71,5 +75,13 @@ public class ArchiveFiles {
 
     public void setForDelete(boolean forDelete) {
         this.forDelete = forDelete;
+    }
+
+    public BackupFiles getBackupFiles() {
+        return backupFiles;
+    }
+
+    public void setBackupFiles(BackupFiles backupFiles) {
+        this.backupFiles = backupFiles;
     }
 }
