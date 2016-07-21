@@ -21,7 +21,7 @@
     </thead>
     <tbody>
     <c:forEach items="${archives}" var="archive">
-        <tr class="<c:if test="${archive.status == 2}">success</c:if> <c:if test="${archive.status == 3}">error</c:if>">
+        <tr class="<c:if test="${archive.status == 2}">success</c:if> <c:if test="${archive.status == 3}">error</c:if> <c:if test="${archive.status == 4}">in-process</c:if>">
             <td class="mdl-data-table__cell--non-numeric">${archive.name}</td>
             <td>
                 <c:choose>

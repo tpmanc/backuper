@@ -3,7 +3,6 @@ package schedulers;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import exceptions.BashExecuteException;
-import exceptions.InternalException;
 import helpers.BackupStatus;
 import helpers.HashHelper;
 import helpers.SshDatabaseBackup;
@@ -36,6 +35,9 @@ public class BackupScheduler {
     public void databaseBackupRunner() {
         List<ArchiveDatabase> waitnig = archiveDatabaseService.getWaiting();
         for (ArchiveDatabase archive : waitnig) {
+            archive.setStatus(BackupStatus.STATUS_IN_PROCESS);
+            archiveDatabaseService.update(archive);
+
             Session session = sessionFactory.openSession();
             archive = (ArchiveDatabase) session.merge(archive);
             Hibernate.initialize(archive.getBackupDatabase().getServer());
@@ -89,6 +91,9 @@ public class BackupScheduler {
     public void filesBackupRunner() {
         List<ArchiveFiles> waitnig = archiveFilesService.getWaiting();
         for (ArchiveFiles archive : waitnig) {
+            archive.setStatus(BackupStatus.STATUS_IN_PROCESS);
+            archiveFilesService.update(archive);
+
             Session session = sessionFactory.openSession();
             archive = (ArchiveFiles) session.merge(archive);
             Hibernate.initialize(archive.getBackupFiles().getServer());
