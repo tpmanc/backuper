@@ -21,7 +21,7 @@
     </thead>
     <tbody>
     <c:forEach items="${archives}" var="archive">
-        <tr>
+        <tr class="<c:if test="${archive.status == 2}">success</c:if> <c:if test="${archive.status == 3}">error</c:if>">
             <td class="mdl-data-table__cell--non-numeric">${archive.name}</td>
             <td>
                 <c:choose>
@@ -46,9 +46,16 @@
             <jsp:setProperty name="dateValue" property="time" value="${archive.date}"/>
             <td><fmt:formatDate value="${dateValue}" pattern="HH:mm dd.MM.yyyy" /></td>
             <td>
-                <a href="<spring:url value="/backup/download/files/${archive.id}" />" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--mini-fab">
-                    <i class="material-icons">file_download</i>
-                </a>
+                <c:if test="${archive.status == 2}">
+                    <a href="<spring:url value="/archive/download/files/${archive.id}" />" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--mini-fab">
+                        <i class="material-icons">file_download</i>
+                    </a>
+                </c:if>
+                <c:if test="${archive.status == 3}">
+                    <a href="<spring:url value="/archive/error/files/${archive.id}" />" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--mini-fab">
+                        <i class="material-icons">info_outline</i>
+                    </a>
+                </c:if>
             </td>
         </tr>
     </c:forEach>

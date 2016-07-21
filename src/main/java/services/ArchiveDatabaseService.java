@@ -36,4 +36,9 @@ public class ArchiveDatabaseService {
     public List<ArchiveDatabase> getAll() {
         return dao.getAll();
     }
+
+    @Transactional
+    public List<ArchiveDatabase> getWaiting() {
+        return dao.getWaiting();
+    }
 }

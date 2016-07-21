@@ -36,4 +36,9 @@ public class ArchiveFilesService {
     public List<ArchiveFiles> getAll() {
         return dao.getAll();
     }
+
+    @Transactional
+    public List<ArchiveFiles> getWaiting() {
+        return dao.getWaiting();
+    }
 }

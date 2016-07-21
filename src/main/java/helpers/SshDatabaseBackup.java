@@ -3,6 +3,7 @@ package helpers;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import config.Settings;
+import exceptions.BashExecuteException;
 import helpers.database.DatabaseConnectionInterface;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ public class SshDatabaseBackup extends SshConnect {
         connect();
     }
 
-    public String createDatabaseBackup() throws JSchException, IOException, SftpException {
+    public String createDatabaseBackup() throws JSchException, IOException, SftpException, BashExecuteException {
         String result = executeBash(dbConnection.getDumpCommand());
         String archivePath = createArchive(dbConnection.getDbName(), dbConnection.getTempBackupName());
         return downloadBackup(archivePath, Settings.getAppHome()+"/"+getArchiveFullName(dbConnection.getDbName()));
