@@ -17,6 +17,9 @@ public class User {
     @Column(name="password_hash")
     private String passwordHash;
 
+    @Column(name="salt")
+    private String salt;
+
     @Column(name="is_disabled")
     private boolean isDisabled;
 
@@ -61,5 +64,13 @@ public class User {
 
     public void setServers(Set<Server> servers) {
         this.servers = servers;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 }

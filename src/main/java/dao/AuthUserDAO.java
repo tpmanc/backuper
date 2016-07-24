@@ -30,6 +30,7 @@ public class AuthUserDAO  {
             authUser.setId(user.getId());
             authUser.setUsername(user.getEmail());
             authUser.setPassword(user.getPasswordHash());
+            authUser.setSalt(user.getSalt());
             return authUser;
         }
         return null;

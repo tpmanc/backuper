@@ -72,7 +72,8 @@ public class IndexController {
 
         user = new User();
         user.setEmail(email);
-        user.setPasswordHash(PasswordHelper.generatePasswordHash(password));
+        user.setSalt(PasswordHelper.generateSalt());
+        user.setPasswordHash(PasswordHelper.generatePasswordHash(password, user.getSalt()));
         user.setDisabled(false);
         userService.create(user);
 

@@ -10,6 +10,7 @@ public class CustomUser implements UserDetails {
     private int id;
     private String username;
     private String password;
+    private String salt;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -60,5 +61,13 @@ public class CustomUser implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 }
