@@ -1,6 +1,7 @@
 package helpers;
 
 import com.jcraft.jsch.*;
+import exceptions.BashExecuteException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,7 +47,7 @@ public class SshConnect {
         session.disconnect();
     }
 
-    public String executeBash(String command) throws JSchException, IOException {
+    public String executeBash(String command) throws JSchException, IOException, BashExecuteException {
         execChannel = session.openChannel("exec");
         ((ChannelExec) execChannel).setCommand(command);
         InputStream commandOutput = execChannel.getInputStream();
@@ -60,6 +61,18 @@ public class SshConnect {
             readByte = commandOutput.read();
         }
 
+        readByte = errorOutput.read();
+        StringBuilder errorBuffer = new StringBuilder();
+        while(readByte != 0xffffffff) {
+            errorBuffer.append((char)readByte);
+            readByte = errorOutput.read();
+        }
+
+        if (errorBuffer.length() > 0) {
+            System.out.println(errorBuffer);
+            throw new BashExecuteException(errorBuffer.toString());
+        }
+
         execChannel.disconnect();
         return outputBuffer.toString();
     }
@@ -68,10 +81,9 @@ public class SshConnect {
         return name+"-"+archiveNameDate+archiveExtension;
     }
 
-    protected String createArchive(String name, String tempName) throws IOException, JSchException {
+    protected String createArchive(String name, String tempName) throws IOException, JSchException, BashExecuteException {
         String archivePath = tempDir+"/"+getArchiveFullName(name);
         String command = "tar -zcf \""+archivePath+"\" -C "+tempDir+" "+tempName;
-        System.out.println(command);
         executeBash(command);
         return archivePath;
     }

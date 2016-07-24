@@ -24,6 +24,9 @@ public class ArchiveBase {
     @Column(name="status", nullable = false)
     private int status;
 
+    @Column(name="message", nullable = false, columnDefinition="TEXT")
+    private String message;
+
     @Column(name="for_delete", nullable = false)
     private boolean forDelete;
 
@@ -81,5 +84,13 @@ public class ArchiveBase {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

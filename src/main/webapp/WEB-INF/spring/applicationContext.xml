@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
 
@@ -32,6 +33,11 @@
     <task:scheduler id="myScheduler" pool-size="2" />
 
     <task:scheduled-tasks scheduler="myScheduler">
-        <task:scheduled ref="backupScheduler" method="test" fixed-delay="120000" />
+        <!--<task:scheduled ref="backupScheduler" method="databaseBackupRunner" fixed-delay="300000" /> // 5 min-->
+        <task:scheduled ref="backupScheduler" method="databaseBackupRunner" fixed-delay="60000" />
+        <task:scheduled ref="backupScheduler" method="filesBackupRunner" fixed-delay="60000" initial-delay="30000" />
     </task:scheduled-tasks>
+
+    <context:component-scan base-package="schedulers" />
+    <context:annotation-config />
 </beans>

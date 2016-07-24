@@ -1,16 +1,7 @@
 package controllers;
 
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.SftpException;
-import exceptions.InternalException;
 import exceptions.NotFoundException;
-import helpers.HashHelper;
-import helpers.SshDatabaseBackup;
-import helpers.SshFilesBackup;
-import helpers.ValidationHelper;
-import helpers.database.DatabaseConnectionInterface;
-import helpers.database.MysqlConnection;
-import helpers.database.PostgresqlConnection;
+import helpers.*;
 import models.*;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -27,8 +18,6 @@ import services.*;
 import validators.BackupDatabaseValidator;
 import validators.BackupFilesValidator;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -313,49 +302,14 @@ public class BackupController {
             throw new NotFoundException("Page Not Found");
         }
 
-        Session session = sessionFactory.openSession();
-        backupDatabase = (BackupDatabase) session.merge(backupDatabase);
-        Hibernate.initialize(backupDatabase.getServer());
-        session.close();
-        Server server = backupDatabase.getServer();
-
-        DatabaseConnectionInterface dbConnection;
-        if (backupDatabase.getDatabaseType() == 1) {
-            dbConnection = new MysqlConnection(backupDatabase.getDatabaseUser(), backupDatabase.getDatabasePassword(), backupDatabase.getDatabaseName(), 3301);
-        } else if (backupDatabase.getDatabaseType() == 2) {
-            dbConnection = new PostgresqlConnection(backupDatabase.getDatabaseUser(), backupDatabase.getDatabasePassword(), backupDatabase.getDatabaseName(), 5432);
-        } else {
-            dbConnection = null;
-        }
-
-        try {
-            SshDatabaseBackup sshDatabaseBackup = new SshDatabaseBackup(server.getHost(), server.getSshPort(), server.getSshUser(), server.getSshPassword(), dbConnection);
-            String filePath = sshDatabaseBackup.createDatabaseBackup();
-
-            File file = new File(filePath);
-            String hash = HashHelper.getHash(filePath);
-            double fileSize = file.length(); // bytes
-            File newFile = new File(HashHelper.getHashDir(hash) + file.getName());
-            file.renameTo(newFile);
-            ArchiveDatabase model = new ArchiveDatabase();
-            model.setName(file.getName());
-            model.setHash(hash);
-            model.setSize(fileSize);
-            model.setBackupDatabase(backupDatabase);
-            model.setForDelete(false);
-            archiveDatabaseService.create(model);
-        } catch (JSchException e) {
-            e.printStackTrace();
-            throw new InternalException("Cant create backup");
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new InternalException("Cant create backup");
-        } catch (SftpException e) {
-            e.printStackTrace();
-            throw new InternalException("Cant create backup");
-        } finally {
-
-        }
+        ArchiveDatabase archive = new ArchiveDatabase();
+        archive.setStatus(BackupStatus.STATUS_WAITING);
+        archive.setForDelete(false);
+        archive.setBackupDatabase(backupDatabase);
+        archive.setHash("");
+        archive.setMessage("");
+        archive.setName("");
+        archiveDatabaseService.create(archive);
 
         return "redirect:/backup/database/"+backupDatabase.getId();
     }
@@ -369,41 +323,14 @@ public class BackupController {
             throw new NotFoundException("Page Not Found");
         }
 
-        Session session = sessionFactory.openSession();
-        backupFiles = (BackupFiles) session.merge(backupFiles);
-        Hibernate.initialize(backupFiles.getServer());
-        session.close();
-        Server server = backupFiles.getServer();
-
-        try {
-            SshFilesBackup sshFilesBackup = new SshFilesBackup(server.getHost(), server.getSshPort(), server.getSshUser(), server.getSshPassword(), backupFiles);
-            String filePath = sshFilesBackup.createFilesBackup(backupFiles.getTitle());
-            sshFilesBackup.disconnect();
-
-            File file = new File(filePath);
-            String hash = HashHelper.getHash(filePath);
-            double fileSize = file.length(); // bytes
-            File newFile = new File(HashHelper.getHashDir(hash) + file.getName());
-            file.renameTo(newFile);
-            ArchiveFiles model = new ArchiveFiles();
-            model.setName(file.getName());
-            model.setHash(hash);
-            model.setSize(fileSize);
-            model.setForDelete(false);
-            model.setBackupFiles(backupFiles);
-            archiveFilesService.create(model);
-        } catch (JSchException e) {
-            e.printStackTrace();
-            throw new InternalException("Cant create backup");
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new InternalException("Cant create backup");
-        } catch (SftpException e) {
-            e.printStackTrace();
-            throw new InternalException("Cant create backup");
-        } finally {
-
-        }
+        ArchiveFiles archive = new ArchiveFiles();
+        archive.setStatus(BackupStatus.STATUS_WAITING);
+        archive.setForDelete(false);
+        archive.setBackupFiles(backupFiles);
+        archive.setHash("");
+        archive.setMessage("");
+        archive.setName("");
+        archiveFilesService.create(archive);
 
         return "redirect:/backup/files/"+backupFiles.getId();
     }

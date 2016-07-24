@@ -3,6 +3,7 @@ package helpers;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import config.Settings;
+import exceptions.BashExecuteException;
 import models.BackupFiles;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ public class SshFilesBackup extends SshConnect {
         connect();
     }
 
-    public String createFilesBackup(String name) throws IOException, JSchException, SftpException {
+    public String createFilesBackup(String name) throws IOException, JSchException, SftpException, BashExecuteException {
         String archivePath = tempDir+"/"+getArchiveFullName(name);
 
         StringBuilder sb = new StringBuilder();
@@ -29,7 +30,7 @@ public class SshFilesBackup extends SshConnect {
             // TODO: delete last "/" char
             sb.append("--exclude=").append(ignoreFile).append(" ");
         }
-        sb.append(backupFiles.getFolder());
+        sb.append("-P ").append(backupFiles.getFolder());
 
         String command = sb.toString();
         String finalCommand = command.replaceAll("\r", "");
