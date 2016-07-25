@@ -68,9 +68,17 @@
 
             <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label <c:if test="${errors.containsKey('databaseName')}">is-invalid</c:if>">
                 <input class="mdl-textfield__input" type="text" autocomplete="off" id="dbName" name="dbName" value="${backup.databaseName}">
-                <label class="mdl-textfield__label" for="dbPassword">Database Name</label>
+                <label class="mdl-textfield__label" for="dbName">Database Name</label>
                 <c:if test="${errors.containsKey('databaseName')}">
                     <span class="mdl-textfield__error">${errors.get('databaseName')[0]}</span>
+                </c:if>
+            </div>
+
+            <div class="form-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label <c:if test="${errors.containsKey('databasePort')}">is-invalid</c:if>">
+                <input class="mdl-textfield__input" type="text" autocomplete="off" id="dbPort" name="dbPort" value="${backup.databasePort}">
+                <label class="mdl-textfield__label" for="dbPort">Database Port</label>
+                <c:if test="${errors.containsKey('databasePort')}">
+                    <span class="mdl-textfield__error">${errors.get('databasePort')[0]}</span>
                 </c:if>
             </div>
         </div>

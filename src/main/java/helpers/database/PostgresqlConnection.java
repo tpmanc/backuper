@@ -11,7 +11,7 @@ public class PostgresqlConnection implements DatabaseConnectionInterface {
         this.user = user;
         this.password = password;
         this.database = database;
-        this.port= port;
+        this.port = port;
         this.backupName= database + ".sql";
     }
 

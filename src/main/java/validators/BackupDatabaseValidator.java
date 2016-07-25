@@ -24,6 +24,7 @@ public class BackupDatabaseValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "databaseName", "databaseName.empty", "Database name is required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "databaseUser", "databaseUser.empty", "Database user is required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "databasePassword", "databasePassword.empty", "Database password is required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "databasePort", "databasePort.empty", "Database port is required");
 
         if (backupDatabase.getDatabaseType() <= 0) {
             errors.rejectValue("databaseType", "databaseType.empty", "Database type is required");

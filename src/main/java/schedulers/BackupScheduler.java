@@ -46,10 +46,10 @@ public class BackupScheduler {
             Server server = backupDatabase.getServer();
 
             DatabaseConnectionInterface dbConnection;
-            if (backupDatabase.getDatabaseType() == 1) {
-                dbConnection = new MysqlConnection(backupDatabase.getDatabaseUser(), backupDatabase.getDatabasePassword(), backupDatabase.getDatabaseName(), 3301);
-            } else if (backupDatabase.getDatabaseType() == 2) {
-                dbConnection = new PostgresqlConnection(backupDatabase.getDatabaseUser(), backupDatabase.getDatabasePassword(), backupDatabase.getDatabaseName(), 5432);
+            if (backupDatabase.getDatabaseType() == 1) {//3301
+                dbConnection = new MysqlConnection(backupDatabase.getDatabaseUser(), backupDatabase.getDatabasePassword(), backupDatabase.getDatabaseName(), backupDatabase.getDatabasePort());
+            } else if (backupDatabase.getDatabaseType() == 2) {//5432
+                dbConnection = new PostgresqlConnection(backupDatabase.getDatabaseUser(), backupDatabase.getDatabasePassword(), backupDatabase.getDatabaseName(), backupDatabase.getDatabasePort());
             } else {
                 dbConnection = null;
             }

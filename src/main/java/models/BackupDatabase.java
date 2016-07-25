@@ -26,6 +26,9 @@ public class BackupDatabase {
     @Column(name="database_password", nullable = false)
     private String databasePassword;
 
+    @Column(name="database_port", nullable = false)
+    private int databasePort;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "server_id")
     private Server server;
@@ -96,5 +99,13 @@ public class BackupDatabase {
 
     public void setArchiveDatabases(Set<ArchiveDatabase> archiveDatabases) {
         this.archiveDatabases = archiveDatabases;
+    }
+
+    public int getDatabasePort() {
+        return databasePort;
+    }
+
+    public void setDatabasePort(int databasePort) {
+        this.databasePort = databasePort;
     }
 }
