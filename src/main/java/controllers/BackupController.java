@@ -18,6 +18,7 @@ import services.*;
 import validators.BackupDatabaseValidator;
 import validators.BackupFilesValidator;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -333,5 +334,13 @@ public class BackupController {
         archiveFilesService.create(archive);
 
         return "redirect:/backup/files/"+backupFiles.getId();
+    }
+
+    @RequestMapping(value = {"/backup/database/delete/handler"}, method = RequestMethod.POST)
+    public void databaseDeleteHandler(
+            @RequestParam(value="id[]", required=true) int[] idArr,
+            Principal principal
+    ) {
+        int i =1;
     }
 }

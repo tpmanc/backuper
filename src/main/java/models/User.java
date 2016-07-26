@@ -20,6 +20,12 @@ public class User {
     @Column(name="salt")
     private String salt;
 
+    @Column(name="backup_files_limit")
+    private int backupFilesLimit;
+
+    @Column(name="backup_database_limit")
+    private int backupDatabaseLimit;
+
     @Column(name="is_disabled")
     private boolean isDisabled;
 
@@ -72,5 +78,21 @@ public class User {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public int getBackupFilesLimit() {
+        return backupFilesLimit;
+    }
+
+    public void setBackupFilesLimit(int backupFilesLimit) {
+        this.backupFilesLimit = backupFilesLimit;
+    }
+
+    public int getBackupDatabaseLimit() {
+        return backupDatabaseLimit;
+    }
+
+    public void setBackupDatabaseLimit(int backupDatabaseLimit) {
+        this.backupDatabaseLimit = backupDatabaseLimit;
     }
 }

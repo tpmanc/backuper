@@ -5,12 +5,18 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 
 <jsp:include page="../layouts/layout_top.jsp" />
-
 <jsp:include page="../components/breadcrumbs.jsp" />
+
+<script src="<spring:url value="/resources/js/pages/backup/backup.js" />"></script>
+<script>
+    var csrfName = "${_csrf.parameterName}";
+    var csrfToken = "${_csrf.token}";
+    var deleteUrl = "<spring:url value="/profile/backup/database/delete/handler" />";
+</script>
 
 <h3>${title}</h3>
 
-<table class="backup-table event-table mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+<table id="backupTable" class="backup-table event-table mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
     <thead>
     <tr>
         <th class="mdl-data-table__cell--non-numeric">Title</th>
@@ -21,7 +27,7 @@
     </thead>
     <tbody>
     <c:forEach items="${archives}" var="archive">
-        <tr class="<c:if test="${archive.status == 2}">success</c:if> <c:if test="${archive.status == 3}">error</c:if> <c:if test="${archive.status == 4}">in-process</c:if>">
+        <tr data-id="${archive.id}" class="<c:if test="${archive.status == 2}">success</c:if> <c:if test="${archive.status == 3}">error</c:if> <c:if test="${archive.status == 4}">in-process</c:if>">
             <td class="mdl-data-table__cell--non-numeric">${archive.name}</td>
             <td>
                 <c:choose>

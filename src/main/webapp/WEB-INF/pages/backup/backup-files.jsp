@@ -5,12 +5,18 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 
 <jsp:include page="../layouts/layout_top.jsp" />
-
 <jsp:include page="../components/breadcrumbs.jsp" />
+
+<script src="<spring:url value="/resources/js/pages/backup/backup.js" />"></script>
+<script>
+    var csrfName = "${_csrf.parameterName}";
+    var csrfToken = "${_csrf.token}";
+    var deleteUrl = "<spring:url value="/profile/backup/files/delete/handler" />";
+</script>
 
 <h3>${title}</h3>
 
-<table class="backup-table mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+<table id="backupTable" class="backup-table mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
     <thead>
     <tr>
         <th class="mdl-data-table__cell--non-numeric">Title</th>
